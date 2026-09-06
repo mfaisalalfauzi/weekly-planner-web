@@ -24,14 +24,22 @@ Aplikasi web mandiri (*standalone web application*) untuk memanajemen portofolio
   - `🔴 OVERDUE / DEFISIT` (Buffer $< 0$ atau tanggal lewat): Sisa hari kalender tidak cukup untuk menyelesaikan sisa hari kerja; eskalasi atau penambahan tim diperlukan.
 - **Penyelesaian Master Task:** Progress bar visual menampilkan persentase task yang telah *Done* terhadap total master task.
 
-### 3. 👥 Beban Kerja Tim (*Team Workload Dashboard*)
-- **Manajemen Kapasitas Tim:** Daftarkan rekan tim lintas divisi (Developer, QA, UI/UX, BA) dan tetapkan batas kapasitas mingguan (misal: 4-5 task/minggu).
-- **Pengukur Beban Visual (*Capacity Meter*):**
-  - 🟢 **Optimal:** 1 s/d (Maks - 1) task mingguan.
-  - 🟡 **Penuh:** Tepat mencapai batas kapasitas (disarankan tidak menambah task baru).
-  - 🔴 **Overload:** Melebihi kapasitas maksimal mingguan (indikator peringatan otomatis).
-- **Pelacakan Blocker Aktif per PIC:** Menyoroti anggota tim yang memiliki pekerjaan tertahan kendala teknis atau dependensi pihak ketiga.
-- **Quick Filter:** Klik "🔍 Filter di Jadwal" pada kartu anggota tim untuk langsung membuka tabel tugas mingguan milik PIC tersebut.
+### 3. 👥 Beban Kerja Tim (*Team Workload & Monthly Sprint Matrix*)
+- **Dual-Mode Dashboard:** Beralih mulus antara **[📊 Rekap Bulanan]** dan **[🗓️ Detail Mingguan]** langsung di dalam tab Beban Kerja Tim:
+  - **📊 Rekap Bulanan (*Monthly Sprint Matrix & Capacity*):**
+    - **Matriks Distribusi Sprint Bulanan (M1 s/d M5):** Pemetaan interaktif alokasi tugas mingguan per anggota tim untuk mendeteksi ketimpangan beban kerja antar-sprint dalam satu bulan.
+    - **Interaktif Jump-to-Week:** Klik salah satu chip minggu (misal M2) pada tabel matriks atau kartu anggota untuk langsung membuka jadwal minggu tersebut di tab tugas.
+    - **Kapasitas Bulanan Ideal:** Dihitung transparan berbasis 4 minggu sprint: $\text{Kapasitas Bulanan} = \text{maxTasks/minggu} \times 4$.
+    - **Sebaran Portofolio Proyek Bulanan:** Menampilkan rincian tag proyek yang didukung anggota tim dalam bulan berjalan (misal `[MOB]: 5`, `[WEB]: 3`).
+    - **Rangkuman Progres Bulanan:** Pelacakan total task *Done*, *In Progress*, *To Do*, serta peringatan *Active Blocker*.
+  - **🗓️ Detail Mingguan (*Weekly Workload Detail*):**
+    - **Pengukur Beban Visual (*Capacity Meter*):**
+      - 🟢 **Optimal:** 1 s/d (Maks - 1) task mingguan.
+      - 🟡 **Penuh:** Tepat mencapai batas kapasitas mingguan (4-5 task).
+      - 🔴 **Overload:** Melebihi kapasitas maksimal mingguan (peringatan otomatis).
+    - **Daftar Tugas Alokasi:** Melihat judul pekerjaan, slot hari (Pagi/Siang), serta status penyelesaian task minggu berjalan.
+- **Dedicated Period Selector:** Pilih dan ganti bulan (`teamMonthFilterSelect`) dan minggu (`teamWeekFilterSelect`) secara mandiri di tab Tim tanpa perlu bolak-balik ke tab tugas.
+- **Quick Filter:** Klik "🔍 Filter Jadwal" pada anggota tim untuk langsung membuka seluruh tugas bulanan atau mingguan milik PIC tersebut.
 
 ---
 

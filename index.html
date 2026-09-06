@@ -308,12 +308,54 @@
           <h2 class="text-xl font-bold text-white flex items-center gap-2">
             <span>👥</span> Beban Kerja Tim (*Team Workload*)
           </h2>
-          <p class="text-xs text-slate-400 mt-1">Pantau distribusi tugas mingguan per anggota tim untuk mencegah *bottleneck* dan kelebihan beban (*overloaded*).</p>
+          <p class="text-xs text-slate-400 mt-1">Pantau distribusi tugas mingguan dan bulanan per anggota tim untuk mengontrol kapasitas serta mencegah *bottleneck*.</p>
         </div>
         <button id="openAddTeamModalBtn2" class="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/25 transition">
           <span class="text-base leading-none">+</span> Tambah Anggota Tim
         </button>
       </div>
+
+      <!-- Team Period & View Mode Controls Bar -->
+      <section class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800/80 shadow-md flex flex-wrap items-center justify-between gap-4">
+        <!-- View Mode Switcher: Mingguan vs Bulanan -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5 mr-1">
+            <span>👁️</span> Mode Tampilan:
+          </span>
+          <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+            <button id="teamModeMonthlyBtn" class="px-3.5 py-1.5 rounded-lg font-bold transition bg-purple-600 text-white shadow-sm flex items-center gap-1.5">
+              <span>📊</span> Rekap Bulanan
+            </button>
+            <button id="teamModeWeeklyBtn" class="px-3.5 py-1.5 rounded-lg font-semibold transition text-slate-400 hover:text-white flex items-center gap-1.5">
+              <span>🗓️</span> Detail Mingguan
+            </button>
+          </div>
+        </div>
+
+        <!-- Period Selectors for Team View -->
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Month Selector -->
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-medium text-slate-400">Bulan:</span>
+            <select id="teamMonthFilterSelect" class="px-3 py-1.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white font-medium focus:outline-none focus:border-purple-500">
+              <!-- Dynamically populated months -->
+            </select>
+          </div>
+
+          <!-- Week Selector (visible only when in Weekly mode) -->
+          <div id="teamWeekFilterWrapper" class="hidden flex items-center gap-1.5">
+            <span class="text-xs font-medium text-slate-400">Minggu:</span>
+            <select id="teamWeekFilterSelect" class="px-3 py-1.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white font-medium focus:outline-none focus:border-purple-500">
+              <option value="all">Semua Minggu</option>
+              <option value="Minggu 1">Minggu 1</option>
+              <option value="Minggu 2" selected>Minggu 2</option>
+              <option value="Minggu 3">Minggu 3</option>
+              <option value="Minggu 4">Minggu 4</option>
+              <option value="Minggu 5">Minggu 5</option>
+            </select>
+          </div>
+        </div>
+      </section>
 
       <!-- Team Overview KPI Cards -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -324,27 +366,72 @@
         </div>
 
         <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-sm">
-          <span class="text-xs text-slate-400 font-medium">Task Tim Minggu Ini</span>
+          <span class="text-xs text-slate-400 font-medium" id="teamKpiTasksTitle">Task Tim Bulan Ini</span>
           <div class="mt-2 text-2xl font-bold text-blue-400" id="teamKpiActiveTasks">0 task</div>
           <p class="text-[11px] text-slate-400 mt-1" id="teamKpiPeriodLabel">Periode aktif</p>
         </div>
 
         <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-sm">
-          <span class="text-xs text-slate-400 font-medium">Kelebihan Beban (Overload)</span>
-          <div class="mt-2 text-2xl font-bold text-rose-400" id="teamKpiOverloadCount">0 orang</div>
-          <p class="text-[11px] text-rose-400/80 mt-1">&gt; 5 task di minggu ini</p>
+          <span class="text-xs text-slate-400 font-medium" id="teamKpiCapacityTitle">Beban Kapasitas Tim</span>
+          <div class="mt-2 text-2xl font-bold text-purple-400" id="teamKpiOverloadCount">0%</div>
+          <p class="text-[11px] text-slate-400 mt-1" id="teamKpiCapacitySubtitle">Utilisasi tim</p>
         </div>
 
         <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-sm">
-          <span class="text-xs text-slate-400 font-medium">Anggota dengan Blocker</span>
-          <div class="mt-2 text-2xl font-bold text-amber-400" id="teamKpiBlockerCount">0 orang</div>
-          <p class="text-[11px] text-amber-400/80 mt-1">Pekerjaan tertahan</p>
+          <span class="text-xs text-slate-400 font-medium" id="teamKpiBlockerTitle">Penyelesaian Task</span>
+          <div class="mt-2 text-2xl font-bold text-emerald-400" id="teamKpiBlockerCount">0 Selesai</div>
+          <p class="text-[11px] text-slate-400 mt-1" id="teamKpiBlockerSubtitle">Tingkat keberhasilan</p>
         </div>
       </div>
 
+      <!-- Monthly Sprint Distribution Matrix Section (Shown in Monthly Mode) -->
+      <section id="teamMonthlyMatrixSection" class="bg-slate-900/90 p-6 rounded-3xl border border-slate-800/90 shadow-xl space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+          <div>
+            <h3 class="font-bold text-white text-base flex items-center gap-2">
+              <span>📈</span> Matriks Distribusi Sprint Bulanan (<span id="matrixMonthLabel" class="text-purple-400">September 2026</span>)
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">Pemetaan alokasi tugas per minggu (M1 - M5) untuk mencegah penumpukan kerja dan meratakan utilisasi tim.</p>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span> Klik chip minggu untuk filter detail jadwal
+          </span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-800/90 text-slate-300 border-b border-slate-700/60 uppercase text-[10px] tracking-wider font-bold">
+              <tr>
+                <th class="p-3.5 whitespace-nowrap">Anggota Tim & Role</th>
+                <th class="p-3.5 text-center whitespace-nowrap">M1</th>
+                <th class="p-3.5 text-center whitespace-nowrap">M2</th>
+                <th class="p-3.5 text-center whitespace-nowrap">M3</th>
+                <th class="p-3.5 text-center whitespace-nowrap">M4</th>
+                <th class="p-3.5 text-center whitespace-nowrap">M5</th>
+                <th class="p-3.5 text-center whitespace-nowrap">Total Bulan</th>
+                <th class="p-3.5 text-center whitespace-nowrap">Kapasitas</th>
+                <th class="p-3.5 text-center whitespace-nowrap">Utilisasi</th>
+                <th class="p-3.5 text-center whitespace-nowrap">Status</th>
+                <th class="p-3.5 text-center whitespace-nowrap">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="teamMonthlyMatrixBody" class="divide-y divide-slate-800/80 font-normal">
+              <!-- Dynamically rendered matrix rows -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <!-- Team Members Workload Grid -->
-      <div id="teamGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Dynamically rendered team cards -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2" id="teamGridTitle">
+            <span>👥</span> Kartu Beban Kerja Anggota Tim
+          </h3>
+          <span class="text-xs text-slate-400" id="teamGridSubtitle">Detail kapasitas dan tugas alokasi</span>
+        </div>
+        <div id="teamGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically rendered team cards -->
+        </div>
       </div>
 
     </div>

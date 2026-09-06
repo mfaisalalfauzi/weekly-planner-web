@@ -90,8 +90,21 @@ const DEFAULT_PROJECTS = [
   }
 ];
 
-// Initial Default Weekly Tasks
+// Initial Default Weekly Tasks (Distributed across Minggu 1 - Minggu 4)
 const DEFAULT_TASKS = [
+  // ===== MINGGU 1 (Sprint Kickoff & Architecture Setup) =====
+  { id: 101, projectId: "proj-1", masterTaskId: "mt-1", month: "2026-09", week: "Minggu 1", day: "Senin", slot: "Pagi: 09-12", type: "PM", task: "Fasilitasi Sprint Planning & estimasi story point", category: "Ceremony", pic: "Anda (IT PM)", priority: "P1 (High)", blocker: "-", deliverable: "Sprint Backlog September terkunci di Jira", status: "Done" },
+  { id: 102, projectId: "proj-1", masterTaskId: "mt-3", month: "2026-09", week: "Minggu 1", day: "Senin", slot: "Siang: 13-17", type: "Teknis", task: "Setup Tailwind design tokens & component layout", category: "Frontend", pic: "Budi Pratama", priority: "P2 (Med)", blocker: "-", deliverable: "Setup branch & skeleton UI", status: "Done" },
+  { id: 103, projectId: "proj-1", masterTaskId: "mt-4", month: "2026-09", week: "Minggu 1", day: "Selasa", slot: "Pagi: 09-12", type: "Teknis", task: "Design schema database transaksi payment gateway", category: "Database", pic: "Andi Saputra", priority: "P1 (High)", blocker: "-", deliverable: "ERD & migration script v1", status: "Done" },
+  { id: 104, projectId: "proj-1", masterTaskId: "mt-5", month: "2026-09", week: "Minggu 1", day: "Selasa", slot: "Siang: 13-17", type: "Teknis", task: "Penyusunan Test Plan & Test Scenarios Sprint", category: "QA", pic: "Sari Wulandari", priority: "P2 (Med)", blocker: "-", deliverable: "Test cases dokumen di Jira", status: "Done" },
+  { id: 105, projectId: "proj-2", masterTaskId: "mt-21", month: "2026-09", week: "Minggu 1", day: "Rabu", slot: "Pagi: 09-12", type: "Teknis", task: "Finalisasi Figma Prototype modul Checkout v2.1", category: "Design", pic: "Dimas Aditya", priority: "P2 (Med)", blocker: "-", deliverable: "Figma link approval klien", status: "Done" },
+  { id: 106, projectId: "proj-2", masterTaskId: "mt-22", month: "2026-09", week: "Minggu 1", day: "Rabu", slot: "Siang: 13-17", type: "Teknis", task: "Benchmark latency query report bulanan", category: "Database", pic: "Andi Saputra", priority: "P2 (Med)", blocker: "-", deliverable: "Laporan benchmark infra", status: "Done" },
+  { id: 107, projectId: "proj-5", masterTaskId: "mt-51", month: "2026-09", week: "Minggu 1", day: "Kamis", slot: "Pagi: 09-12", type: "Teknis", task: "Refactor reusable form modal components", category: "Frontend", pic: "Budi Pratama", priority: "P3 (Low)", blocker: "-", deliverable: "PR merged ke shared library", status: "Done" },
+  { id: 108, projectId: "proj-2", masterTaskId: "mt-23", month: "2026-09", week: "Minggu 1", day: "Kamis", slot: "Siang: 13-17", type: "PM", task: "Review timeline & resource allocation Q3", category: "Scoping", pic: "Anda (IT PM)", priority: "P2 (Med)", blocker: "-", deliverable: "Resource plan sheet", status: "Done" },
+  { id: 109, projectId: "proj-3", masterTaskId: "mt-32", month: "2026-09", week: "Minggu 1", day: "Jumat", slot: "Pagi: 09-12", type: "Teknis", task: "Automated regression smoke test API", category: "QA", pic: "Sari Wulandari", priority: "P2 (Med)", blocker: "-", deliverable: "Test pipeline green di GitHub Actions", status: "Done" },
+  { id: 110, projectId: "proj-2", masterTaskId: "mt-21", month: "2026-09", week: "Minggu 1", day: "Jumat", slot: "Siang: 13-17", type: "Teknis", task: "Design Review & handoff icon pack", category: "Design", pic: "Dimas Aditya", priority: "P3 (Low)", blocker: "-", deliverable: "SVG asset export selesai", status: "Done" },
+
+  // ===== MINGGU 2 (Core Sprint Execution) =====
   { id: 1, projectId: "proj-1", masterTaskId: "mt-1", month: "2026-09", week: "Minggu 2", day: "Senin", slot: "Pagi: 09-12", type: "PM", task: "Fasilitasi Sprint Planning & estimasi story point", category: "Ceremony", pic: "Anda (IT PM)", priority: "P1 (High)", blocker: "Menunggu PRD final dari PO", deliverable: "Sprint Backlog terkunci di Jira", status: "Done" },
   { id: 2, projectId: "proj-2", masterTaskId: "mt-21", month: "2026-09", week: "Minggu 2", day: "Senin", slot: "Siang: 13-17", type: "Teknis", task: "Slicing UI Dashboard & integrasi state API", category: "Frontend", pic: "Dimas Aditya", priority: "P2 (Med)", blocker: "Figma icon belum fix", deliverable: "Commit code & buat draft PR", status: "In Progress" },
   { id: 3, projectId: "proj-1", masterTaskId: "mt-2", month: "2026-09", week: "Minggu 2", day: "Selasa", slot: "Pagi: 09-12", type: "PM", task: "Eskalasi issue kredensial API payment gateway", category: "Blocker", pic: "Anda (IT PM)", priority: "P1 (High)", blocker: "Tiket vendor #402 belum dibalas", deliverable: "API Key aktif di staging", status: "Done" },
@@ -101,7 +114,26 @@ const DEFAULT_TASKS = [
   { id: 7, projectId: "proj-1", masterTaskId: "mt-5", month: "2026-09", week: "Minggu 2", day: "Kamis", slot: "Pagi: 09-12", type: "PM", task: "Bug triage & koordinasi scope rilis UAT", category: "Delivery", pic: "Sari Wulandari", priority: "P1 (High)", blocker: "2 major bug di checkout", deliverable: "Release Candidate siap UAT", status: "To Do" },
   { id: 8, projectId: "proj-1", masterTaskId: "mt-6", month: "2026-09", week: "Minggu 2", day: "Kamis", slot: "Siang: 13-17", type: "Teknis", task: "Investigasi crash log Sentry modul Checkout", category: "Debugging", pic: "Budi Pratama", priority: "P1 (High)", blocker: "Perlu repro di Android 14", deliverable: "Root cause & bugfix patch", status: "To Do" },
   { id: 9, projectId: "proj-1", masterTaskId: "mt-1", month: "2026-09", week: "Minggu 2", day: "Jumat", slot: "Pagi: 09-12", type: "PM", task: "Susun & kirim Weekly Status Report ke Lead PM", category: "Reporting", pic: "Anda (IT PM)", priority: "P1 (High)", blocker: "Butuh rekap burn-down", deliverable: "Email / PDF Status Report", status: "To Do" },
-  { id: 10, projectId: "proj-5", masterTaskId: "mt-51", month: "2026-09", week: "Minggu 2", day: "Jumat", slot: "Siang: 13-17", type: "Teknis", task: "Code review PR tim dan update technical docs", category: "Code Review", pic: "Budi Pratama", priority: "P3 (Low)", blocker: "-", deliverable: "Approval PR & README update", status: "To Do" }
+  { id: 10, projectId: "proj-5", masterTaskId: "mt-51", month: "2026-09", week: "Minggu 2", day: "Jumat", slot: "Siang: 13-17", type: "Teknis", task: "Code review PR tim dan update technical docs", category: "Code Review", pic: "Budi Pratama", priority: "P3 (Low)", blocker: "-", deliverable: "Approval PR & README update", status: "To Do" },
+
+  // ===== MINGGU 3 (Integration & Testing Sprint) =====
+  { id: 201, projectId: "proj-1", masterTaskId: "mt-3", month: "2026-09", week: "Minggu 3", day: "Senin", slot: "Pagi: 09-12", type: "Teknis", task: "Slicing UI Checkout & integrasi state API", category: "Frontend", pic: "Budi Pratama", priority: "P1 (High)", blocker: "-", deliverable: "Komponen payment method aktif", status: "To Do" },
+  { id: 202, projectId: "proj-1", masterTaskId: "mt-4", month: "2026-09", week: "Minggu 3", day: "Senin", slot: "Siang: 13-17", type: "Teknis", task: "Setup unit test & backend endpoint auth token", category: "Backend", pic: "Andi Saputra", priority: "P1 (High)", blocker: "-", deliverable: "Endpoint auth v2 live", status: "To Do" },
+  { id: 203, projectId: "proj-2", masterTaskId: "mt-23", month: "2026-09", week: "Minggu 3", day: "Selasa", slot: "Pagi: 09-12", type: "PM", task: "Review performa load time dashboard dengan tim infra", category: "Review", pic: "Anda (IT PM)", priority: "P2 (Med)", blocker: "-", deliverable: "Action item optimasi query", status: "To Do" },
+  { id: 204, projectId: "proj-1", masterTaskId: "mt-5", month: "2026-09", week: "Minggu 3", day: "Selasa", slot: "Siang: 13-17", type: "Teknis", task: "E2E testing flow pembayaran multi-currency", category: "QA", pic: "Sari Wulandari", priority: "P1 (High)", blocker: "-", deliverable: "Hasil pengujian e2e valid", status: "To Do" },
+  { id: 205, projectId: "proj-4", masterTaskId: "mt-42", month: "2026-09", week: "Minggu 3", day: "Rabu", slot: "Pagi: 09-12", type: "Teknis", task: "Koneksi database sinkronisasi data pelanggan", category: "Backend", pic: "Andi Saputra", priority: "P1 (High)", blocker: "-", deliverable: "Worker sinkronisasi data", status: "To Do" },
+  { id: 206, projectId: "proj-4", masterTaskId: "mt-41", month: "2026-09", week: "Minggu 3", day: "Rabu", slot: "Siang: 13-17", type: "PM", task: "Stakeholder demo & alignment sprint goal", category: "Ceremony", pic: "Anda (IT PM)", priority: "P2 (Med)", blocker: "-", deliverable: "MoM demo & sign-off PO", status: "To Do" },
+  { id: 207, projectId: "proj-1", masterTaskId: "mt-3", month: "2026-09", week: "Minggu 3", day: "Kamis", slot: "Pagi: 09-12", type: "Teknis", task: "Integrasi push notification service worker", category: "Frontend", pic: "Budi Pratama", priority: "P2 (Med)", blocker: "-", deliverable: "Event handling push notif", status: "To Do" },
+  { id: 208, projectId: "proj-3", masterTaskId: "mt-31", month: "2026-09", week: "Minggu 3", day: "Kamis", slot: "Siang: 13-17", type: "Teknis", task: "Verifikasi fix bug token auth expired staging", category: "QA", pic: "Sari Wulandari", priority: "P1 (High)", blocker: "-", deliverable: "QA pass certificate", status: "To Do" },
+  { id: 209, projectId: "proj-4", masterTaskId: "mt-41", month: "2026-09", week: "Minggu 3", day: "Jumat", slot: "Pagi: 09-12", type: "Teknis", task: "Desain modul customer pipeline & ticketing", category: "Design", pic: "Dimas Aditya", priority: "P2 (Med)", blocker: "-", deliverable: "Hi-fi UI mockups CRM", status: "To Do" },
+
+  // ===== MINGGU 4 (Hardening & Delivery Sprint) =====
+  { id: 301, projectId: "proj-1", masterTaskId: "mt-5", month: "2026-09", week: "Minggu 4", day: "Senin", slot: "Pagi: 09-12", type: "PM", task: "Sign-off UAT rilis staging release candidate", category: "Delivery", pic: "Sari Wulandari", priority: "P1 (High)", blocker: "-", deliverable: "UAT Sign-off document", status: "To Do" },
+  { id: 302, projectId: "proj-1", masterTaskId: "mt-6", month: "2026-09", week: "Minggu 4", day: "Senin", slot: "Siang: 13-17", type: "Teknis", task: "Cross-browser testing Safari & Chrome iOS", category: "Frontend", pic: "Budi Pratama", priority: "P2 (Med)", blocker: "-", deliverable: "Laporan kompatibilitas browser", status: "To Do" },
+  { id: 303, projectId: "proj-3", masterTaskId: "mt-32", month: "2026-09", week: "Minggu 4", day: "Selasa", slot: "Pagi: 09-12", type: "Teknis", task: "Audit security vulnerability dependencies", category: "Security", pic: "Andi Saputra", priority: "P2 (Med)", blocker: "-", deliverable: "Snyk audit report zero high", status: "To Do" },
+  { id: 304, projectId: "proj-2", masterTaskId: "mt-23", month: "2026-09", week: "Minggu 4", day: "Selasa", slot: "Siang: 13-17", type: "PM", task: "Usability testing survey interaktif klien internal", category: "Review", pic: "Dimas Aditya", priority: "P3 (Low)", blocker: "-", deliverable: "SUS score report internal", status: "To Do" },
+  { id: 305, projectId: "proj-1", masterTaskId: "mt-1", month: "2026-09", week: "Minggu 4", day: "Rabu", slot: "Pagi: 09-12", type: "PM", task: "Sprint Retrospective & continuous improvement log", category: "Ceremony", pic: "Anda (IT PM)", priority: "P2 (Med)", blocker: "-", deliverable: "Retro action items di Confluence", status: "To Do" },
+  { id: 306, projectId: "proj-2", masterTaskId: "mt-23", month: "2026-09", week: "Minggu 4", day: "Kamis", slot: "Pagi: 09-12", type: "PM", task: "Penyusunan Monthly Project Portfolio Report", category: "Reporting", pic: "Anda (IT PM)", priority: "P1 (High)", blocker: "-", deliverable: "Executive deck slide Q3", status: "To Do" }
 ];
 
 // App State
@@ -152,6 +184,13 @@ function migrateDataSchema() {
       taskModified = true;
     }
   });
+
+  // If user only had the 10 initial sample tasks in Minggu 2, upgrade them to the full monthly sample set
+  if (tasks.length === 10 && tasks.every(t => t.week === 'Minggu 2')) {
+    tasks = JSON.parse(JSON.stringify(DEFAULT_TASKS));
+    taskModified = true;
+  }
+
   if (taskModified) saveTasks();
 }
 migrateDataSchema();
@@ -165,6 +204,8 @@ let activeProjectFilter = 'all';
 let activePicFilter = 'all';
 let searchQuery = '';
 let selectedTaskIds = new Set();
+let teamViewMode = 'monthly'; // 'monthly' | 'weekly'
+let teamActiveWeek = 'Minggu 2';
 
 // Toast Notification
 function showToast(message, type = 'info') {
@@ -257,6 +298,7 @@ function renderMonthSelector() {
     });
     container.appendChild(btn);
   });
+  updateTeamPeriodSelectors();
 }
 
 function updateProjectFilterDropdown() {
@@ -849,7 +891,40 @@ function renderProjectHub() {
   });
 }
 
-// ==================== VIEW 3: TEAM WORKLOAD HUB RENDERING ====================
+// ==================== VIEW 3: TEAM WORKLOAD HUB (WEEKLY & MONTHLY) ====================
+
+function updateTeamPeriodSelectors() {
+  const monthSelect = document.getElementById('teamMonthFilterSelect');
+  if (monthSelect) {
+    const monthSet = new Set(tasks.map(t => t.month).filter(Boolean));
+    monthSet.add('2026-09');
+    const sortedMonths = Array.from(monthSet).sort();
+
+    monthSelect.innerHTML = '<option value="all">Semua Bulan</option>';
+    sortedMonths.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = formatMonthName(m);
+      if (activeMonth === m) opt.selected = true;
+      monthSelect.appendChild(opt);
+    });
+    if (activeMonth === 'all') monthSelect.value = 'all';
+  }
+
+  const weekSelect = document.getElementById('teamWeekFilterSelect');
+  if (weekSelect) {
+    weekSelect.value = teamActiveWeek;
+  }
+}
+
+function getMemberInitials(name) {
+  if (!name) return '??';
+  const clean = name.replace(/[^a-zA-Z0-9\s]/g, ' ').trim();
+  const words = clean.split(/\s+/).filter(Boolean);
+  if (words.length === 0) return name.slice(0, 2).toUpperCase();
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
 
 function renderTeamHub() {
   const container = document.getElementById('teamGrid');
@@ -858,26 +933,35 @@ function renderTeamHub() {
   const navTeamCount = document.getElementById('navTeamCount');
   if (navTeamCount) navTeamCount.textContent = teamMembers.length;
 
-  const periodLabel = activeWeek === 'all' 
-    ? `${formatMonthName(activeMonth)} (Semua Minggu)` 
-    : `${formatMonthName(activeMonth)} - ${activeWeek}`;
-  
-  const teamKpiPeriodLabel = document.getElementById('teamKpiPeriodLabel');
-  if (teamKpiPeriodLabel) teamKpiPeriodLabel.textContent = periodLabel;
+  updateTeamPeriodSelectors();
 
-  // Filter tasks in active period
-  const periodTasks = tasks.filter(t => {
-    if (activeMonth !== 'all' && t.month !== activeMonth) return false;
-    if (activeWeek !== 'all' && t.week !== activeWeek) return false;
-    return true;
-  });
+  // Mode Switcher Controls Visuals
+  const monthlyBtn = document.getElementById('teamModeMonthlyBtn');
+  const weeklyBtn = document.getElementById('teamModeWeeklyBtn');
+  const weekWrapper = document.getElementById('teamWeekFilterWrapper');
+  const matrixSection = document.getElementById('teamMonthlyMatrixSection');
+  const gridTitle = document.getElementById('teamGridTitle');
+  const gridSubtitle = document.getElementById('teamGridSubtitle');
 
-  let overloadCount = 0;
-  let membersWithBlockers = 0;
-  let totalAssignedInPeriod = 0;
+  if (teamViewMode === 'monthly') {
+    if (monthlyBtn) monthlyBtn.className = "px-3.5 py-1.5 rounded-lg font-bold transition bg-purple-600 text-white shadow-sm flex items-center gap-1.5";
+    if (weeklyBtn) weeklyBtn.className = "px-3.5 py-1.5 rounded-lg font-semibold transition text-slate-400 hover:text-white flex items-center gap-1.5";
+    if (weekWrapper) weekWrapper.classList.add('hidden');
+    if (matrixSection) matrixSection.classList.remove('hidden');
+    if (gridTitle) gridTitle.innerHTML = '<span>👥</span> Kartu Beban Kerja Bulanan Anggota Tim';
+    if (gridSubtitle) gridSubtitle.textContent = 'Agregasi kapasitas sprint dan sebaran proyek bulanan';
+  } else {
+    if (weeklyBtn) weeklyBtn.className = "px-3.5 py-1.5 rounded-lg font-bold transition bg-purple-600 text-white shadow-sm flex items-center gap-1.5";
+    if (monthlyBtn) monthlyBtn.className = "px-3.5 py-1.5 rounded-lg font-semibold transition text-slate-400 hover:text-white flex items-center gap-1.5";
+    if (weekWrapper) weekWrapper.classList.remove('hidden');
+    if (matrixSection) matrixSection.classList.add('hidden');
+    if (gridTitle) gridTitle.innerHTML = '<span>👥</span> Kartu Beban Kerja Mingguan Anggota Tim';
+    if (gridSubtitle) gridSubtitle.textContent = 'Detail tugas alokasi dan status blocker di minggu ini';
+  }
 
   container.innerHTML = '';
 
+  // Empty State
   if (teamMembers.length === 0) {
     container.innerHTML = `
       <div class="col-span-full p-12 text-center text-slate-400 bg-slate-900/60 rounded-3xl border border-slate-800">
@@ -894,152 +978,508 @@ function renderTeamHub() {
     
     document.getElementById('teamKpiTotalMembers').textContent = '0 orang';
     document.getElementById('teamKpiActiveTasks').textContent = '0 task';
-    document.getElementById('teamKpiOverloadCount').textContent = '0 orang';
-    document.getElementById('teamKpiBlockerCount').textContent = '0 orang';
+    document.getElementById('teamKpiOverloadCount').textContent = '0%';
+    document.getElementById('teamKpiBlockerCount').textContent = '0';
     return;
   }
 
-  teamMembers.forEach(tm => {
-    const memberTasks = periodTasks.filter(t => t.pic && (t.pic === tm.name || t.pic.includes(tm.name)));
-    totalAssignedInPeriod += memberTasks.length;
+  // ==================== MODE A: MONTHLY VIEW ====================
+  if (teamViewMode === 'monthly') {
+    const monthName = formatMonthName(activeMonth);
+    const matrixMonthLabel = document.getElementById('matrixMonthLabel');
+    if (matrixMonthLabel) matrixMonthLabel.textContent = monthName;
 
-    const doneCount = memberTasks.filter(t => t.status && t.status.toLowerCase().includes('done')).length;
-    const blockerTasks = memberTasks.filter(t => t.blocker && t.blocker !== '-' && !t.status.toLowerCase().includes('done'));
-    if (blockerTasks.length > 0) membersWithBlockers++;
+    const teamKpiPeriodLabel = document.getElementById('teamKpiPeriodLabel');
+    if (teamKpiPeriodLabel) teamKpiPeriodLabel.textContent = `${monthName} (Agregasi 1 Bulan)`;
 
-    const maxTasks = tm.maxTasks || 4;
-    const taskCount = memberTasks.length;
-    const pct = Math.min(100, Math.round((taskCount / maxTasks) * 100));
+    // Tasks in active month
+    const monthTasks = tasks.filter(t => (activeMonth === 'all' || t.month === activeMonth));
+    const totalMonthTasks = monthTasks.length;
+    const totalDone = monthTasks.filter(t => t.status && t.status.toLowerCase().includes('done')).length;
+    const totalTeamCap = teamMembers.reduce((acc, tm) => acc + ((tm.maxTasks || 4) * 4), 0);
+    const teamUtilPct = totalTeamCap > 0 ? Math.round((totalMonthTasks / totalTeamCap) * 100) : 0;
+    const pctDone = totalMonthTasks > 0 ? Math.round((totalDone / totalMonthTasks) * 100) : 0;
 
-    let statusBadge = '';
-    let gaugeClass = '';
-    let statusSummary = '';
+    // Monthly KPI Counters
+    document.getElementById('teamKpiTotalMembers').textContent = `${teamMembers.length} orang`;
+    
+    const kpiTasksTitle = document.getElementById('teamKpiTasksTitle');
+    if (kpiTasksTitle) kpiTasksTitle.textContent = "Task Tim Bulan Ini";
+    document.getElementById('teamKpiActiveTasks').textContent = `${totalMonthTasks} task`;
+    if (teamKpiPeriodLabel) teamKpiPeriodLabel.textContent = `${monthName} (Rata-rata ${(totalMonthTasks / (teamMembers.length || 1)).toFixed(1)}/orang)`;
 
-    if (taskCount > maxTasks) {
-      overloadCount++;
-      statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 Overload (${taskCount}/${maxTasks})</span>`;
-      gaugeClass = 'gauge-danger';
-      statusSummary = `<span class="text-rose-400 font-semibold">Beban berlebih (+${taskCount - maxTasks} task dari kapasitas ideal).</span>`;
-    } else if (taskCount === maxTasks) {
-      statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🟡 Kapasitas Penuh (${taskCount}/${maxTasks})</span>`;
-      gaugeClass = 'gauge-warning';
-      statusSummary = `<span class="text-amber-400 font-semibold">Kapasitas maksimal tercapai. Hindari penambahan tugas baru.</span>`;
-    } else if (taskCount > 0) {
-      statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🟢 Optimal (${taskCount}/${maxTasks})</span>`;
-      gaugeClass = 'gauge-optimal';
-      statusSummary = `<span class="text-emerald-400 font-semibold">Beban kerja seimbang (${maxTasks - taskCount} slot tersisa).</span>`;
-    } else {
-      statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Kosong (0/${maxTasks})</span>`;
-      gaugeClass = 'bg-slate-700';
-      statusSummary = `<span class="text-slate-400">Kapasitas bebas penuh untuk dialokasikan tugas.</span>`;
+    const kpiCapTitle = document.getElementById('teamKpiCapacityTitle');
+    if (kpiCapTitle) kpiCapTitle.textContent = "Beban Kapasitas Tim";
+    document.getElementById('teamKpiOverloadCount').textContent = `${teamUtilPct}%`;
+    const kpiCapSub = document.getElementById('teamKpiCapacitySubtitle');
+    if (kpiCapSub) kpiCapSub.textContent = `${totalMonthTasks} / ${totalTeamCap} task kapasitas total`;
+
+    const kpiBlockerTitle = document.getElementById('teamKpiBlockerTitle');
+    if (kpiBlockerTitle) kpiBlockerTitle.textContent = "Penyelesaian Task Bulanan";
+    document.getElementById('teamKpiBlockerCount').textContent = `${totalDone} Selesai (${pctDone}%)`;
+    const kpiBlockerSub = document.getElementById('teamKpiBlockerSubtitle');
+    if (kpiBlockerSub) kpiBlockerSub.textContent = `${totalMonthTasks - totalDone} task aktif / in-progress`;
+
+    // 1. Render Monthly Sprint Matrix Table
+    const matrixBody = document.getElementById('teamMonthlyMatrixBody');
+    if (matrixBody) {
+      matrixBody.innerHTML = '';
+      teamMembers.forEach(tm => {
+        const memberMonthTasks = monthTasks.filter(t => t.pic && (t.pic === tm.name || t.pic.includes(tm.name)));
+        const maxW = tm.maxTasks || 4;
+        const monthlyCap = maxW * 4;
+        const countW1 = memberMonthTasks.filter(t => t.week === 'Minggu 1').length;
+        const countW2 = memberMonthTasks.filter(t => t.week === 'Minggu 2').length;
+        const countW3 = memberMonthTasks.filter(t => t.week === 'Minggu 3').length;
+        const countW4 = memberMonthTasks.filter(t => t.week === 'Minggu 4').length;
+        const countW5 = memberMonthTasks.filter(t => t.week === 'Minggu 5').length;
+        const memberTotal = memberMonthTasks.length;
+        const utilPct = Math.round((memberTotal / monthlyCap) * 100);
+
+        function makeChipHtml(count, weekName) {
+          let cls = 'chip-sprint-empty';
+          let txt = '-';
+          if (count > maxW) {
+            cls = 'chip-sprint-overload';
+            txt = `${count} task ⚠️`;
+          } else if (count === maxW) {
+            cls = 'chip-sprint-warning';
+            txt = `${count} task`;
+          } else if (count > 0) {
+            cls = 'chip-sprint-optimal';
+            txt = `${count} task`;
+          }
+          return `<button class="chip-sprint ${cls} matrix-week-btn" data-name="${tm.name}" data-week="${weekName}" title="Buka jadwal ${tm.name} di ${weekName}">${txt}</button>`;
+        }
+
+        let statusBadge = '';
+        if (memberTotal > monthlyCap) {
+          statusBadge = `<span class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 Overload</span>`;
+        } else if (utilPct >= 85) {
+          statusBadge = `<span class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🟡 Penuh</span>`;
+        } else if (memberTotal >= 4) {
+          statusBadge = `<span class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🟢 Optimal</span>`;
+        } else {
+          statusBadge = `<span class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Rendah</span>`;
+        }
+
+        const initials = getMemberInitials(tm.name);
+        const row = document.createElement('tr');
+        row.className = "hover:bg-slate-800/40 transition";
+        row.innerHTML = `
+          <td class="p-3.5 whitespace-nowrap">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl avatar-circle text-white font-extrabold text-xs badge-${tm.color || 'blue'}">
+                ${initials}
+              </div>
+              <div>
+                <div class="font-bold text-white text-xs">${tm.name}</div>
+                <div class="text-[11px] text-slate-400">${tm.role}</div>
+              </div>
+            </div>
+          </td>
+          <td class="p-3.5 text-center">${makeChipHtml(countW1, 'Minggu 1')}</td>
+          <td class="p-3.5 text-center">${makeChipHtml(countW2, 'Minggu 2')}</td>
+          <td class="p-3.5 text-center">${makeChipHtml(countW3, 'Minggu 3')}</td>
+          <td class="p-3.5 text-center">${makeChipHtml(countW4, 'Minggu 4')}</td>
+          <td class="p-3.5 text-center">${makeChipHtml(countW5, 'Minggu 5')}</td>
+          <td class="p-3.5 text-center font-bold text-white text-xs">${memberTotal} task</td>
+          <td class="p-3.5 text-center text-slate-400 text-xs">${monthlyCap} task</td>
+          <td class="p-3.5 text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              <div class="w-16 bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="h-full rounded-full ${utilPct > 100 ? 'gauge-danger' : utilPct >= 85 ? 'gauge-warning' : 'gauge-optimal'}" style="width: ${Math.min(utilPct, 100)}%"></div>
+              </div>
+              <span class="text-[11px] font-bold ${utilPct > 100 ? 'text-rose-400' : 'text-slate-300'}">${utilPct}%</span>
+            </div>
+          </td>
+          <td class="p-3.5 text-center">${statusBadge}</td>
+          <td class="p-3.5 text-center">
+            <button class="view-member-month-btn px-2.5 py-1 text-[11px] font-bold text-purple-400 hover:text-purple-300 bg-purple-950/40 hover:bg-purple-900/40 border border-purple-800/60 rounded-lg transition" data-name="${tm.name}">
+              Filter
+            </button>
+          </td>
+        `;
+        matrixBody.appendChild(row);
+      });
     }
 
-    const initials = tm.name.split(' ').map(n => n[0]).slice(0, 2).join('');
+    // 2. Render Monthly Team Member Cards
+    teamMembers.forEach(tm => {
+      const memberMonthTasks = monthTasks.filter(t => t.pic && (t.pic === tm.name || t.pic.includes(tm.name)));
+      const maxW = tm.maxTasks || 4;
+      const monthlyCap = maxW * 4;
+      const memberTotal = memberMonthTasks.length;
+      const utilPct = Math.round((memberTotal / monthlyCap) * 100);
 
-    let taskListHtml = '';
-    if (memberTasks.length === 0) {
-      taskListHtml = `<div class="p-3 text-center text-[11px] text-slate-500 bg-slate-950/60 rounded-xl border border-slate-800/80 italic">Belum ada tugas terjadwal di ${activeWeek === 'all' ? 'semua minggu' : activeWeek}.</div>`;
-    } else {
-      taskListHtml = `<div class="space-y-2 max-h-48 overflow-y-auto pr-1">`;
-      memberTasks.forEach(t => {
-        const isDone = t.status && t.status.toLowerCase().includes('done');
-        const hasBlocker = t.blocker && t.blocker !== '-' && !isDone;
-        const prj = getProjectById(t.projectId);
+      const doneCount = memberMonthTasks.filter(t => t.status && t.status.toLowerCase().includes('done')).length;
+      const inProgressCount = memberMonthTasks.filter(t => t.status === 'In Progress').length;
+      const todoCount = memberMonthTasks.filter(t => t.status === 'To Do').length;
+      const blockerCount = memberMonthTasks.filter(t => t.blocker && t.blocker !== '-' && !t.status?.toLowerCase().includes('done')).length;
 
-        taskListHtml += `
-          <div class="p-2.5 bg-slate-950/70 border border-slate-800/90 rounded-xl text-xs space-y-1 hover:border-slate-700 transition">
-            <div class="flex items-center justify-between gap-1.5">
-              <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold badge-${prj.color || 'blue'}">
-                  ${prj.code || 'PRJ'}
-                </span>
-                <span class="text-[10px] font-semibold text-slate-400">${t.day} (${t.slot ? t.slot.split(':')[0] : 'Pagi'})</span>
+      const countW1 = memberMonthTasks.filter(t => t.week === 'Minggu 1').length;
+      const countW2 = memberMonthTasks.filter(t => t.week === 'Minggu 2').length;
+      const countW3 = memberMonthTasks.filter(t => t.week === 'Minggu 3').length;
+      const countW4 = memberMonthTasks.filter(t => t.week === 'Minggu 4').length;
+      const countW5 = memberMonthTasks.filter(t => t.week === 'Minggu 5').length;
+
+      let statusBadge = '';
+      let gaugeClass = '';
+      let statusSummary = '';
+
+      if (memberTotal > monthlyCap) {
+        statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 Overload Bulanan</span>`;
+        gaugeClass = 'gauge-danger';
+        statusSummary = `<span class="text-rose-400 font-semibold">Beban berlebih (+${memberTotal - monthlyCap} task dari batas 4 sprint).</span>`;
+      } else if (utilPct >= 85) {
+        statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🟡 Kapasitas Penuh</span>`;
+        gaugeClass = 'gauge-warning';
+        statusSummary = `<span class="text-amber-400 font-semibold">Mendekati kapasitas maksimal (${monthlyCap - memberTotal} slot tersisa).</span>`;
+      } else if (memberTotal >= 4) {
+        statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🟢 Optimal</span>`;
+        gaugeClass = 'gauge-optimal';
+        statusSummary = `<span class="text-emerald-400 font-semibold">Beban kerja bulanan seimbang (${monthlyCap - memberTotal} slot tersisa).</span>`;
+      } else {
+        statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Kapasitas Rendah</span>`;
+        gaugeClass = 'bg-slate-700';
+        statusSummary = `<span class="text-slate-400">Tersedia banyak slot alokasi tugas baru (${monthlyCap - memberTotal} slot).</span>`;
+      }
+
+      // Project breakdown
+      const prjMap = {};
+      memberMonthTasks.forEach(t => {
+        prjMap[t.projectId] = (prjMap[t.projectId] || 0) + 1;
+      });
+      const prjBadges = Object.keys(prjMap).map(pId => {
+        const prj = getProjectById(pId);
+        return `<span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold badge-${prj.color || 'blue'}">${prj.code || 'PRJ'}: ${prjMap[pId]}</span>`;
+      }).join(' ') || '<span class="text-[11px] text-slate-500 italic">Belum ada alokasi proyek</span>';
+
+      const initials = getMemberInitials(tm.name);
+
+      function makeSprintCardPill(count, weekName) {
+        let cls = 'chip-sprint-empty';
+        if (count > maxW) cls = 'chip-sprint-overload';
+        else if (count === maxW) cls = 'chip-sprint-warning';
+        else if (count > 0) cls = 'chip-sprint-optimal';
+        return `
+          <button class="flex-1 py-1 px-1 rounded-lg text-center text-[10px] font-bold ${cls} card-sprint-btn transition hover:scale-105" data-name="${tm.name}" data-week="${weekName}" title="Buka ${weekName}">
+            <div class="text-[9px] font-normal opacity-80">${weekName.replace('Minggu ', 'M')}</div>
+            <div>${count}</div>
+          </button>
+        `;
+      }
+
+      const card = document.createElement('div');
+      card.className = "bg-slate-900/90 p-6 rounded-3xl border border-slate-800/90 shadow-xl space-y-4 hover:border-slate-700 transition flex flex-col justify-between";
+      card.innerHTML = `
+        <div class="space-y-4">
+          <!-- Header -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl avatar-circle text-white font-extrabold text-sm badge-${tm.color || 'blue'} shadow-md">
+                ${initials}
               </div>
-              <span class="text-[10px] font-bold ${isDone ? 'text-emerald-400' : 'text-blue-400'}">
-                ${isDone ? '✅ Selesai' : t.status || 'To Do'}
+              <div>
+                <h3 class="font-bold text-white text-base leading-tight">${tm.name}</h3>
+                <p class="text-xs text-slate-400 font-medium mt-0.5">${tm.role}</p>
+              </div>
+            </div>
+            ${statusBadge}
+          </div>
+
+          <!-- Monthly Workload Meter -->
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-400 font-medium">Beban Bulanan (4 Sprint):</span>
+              <span class="font-bold text-white">${memberTotal} / ${monthlyCap} Task (${utilPct}%)</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden shadow-inner">
+              <div class="h-full rounded-full transition-all duration-500 ${gaugeClass}" style="width: ${Math.min(utilPct, 100)}%"></div>
+            </div>
+            <div class="text-[11px] leading-relaxed pt-0.5">
+              ${statusSummary}
+            </div>
+          </div>
+
+          <!-- Weekly Sprint Distribution -->
+          <div class="bg-slate-950/60 p-3 rounded-2xl border border-slate-800/60 space-y-1.5">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-300">
+              <span class="flex items-center gap-1.5">
+                <span>⚡</span> Distribusi per Sprint:
+              </span>
+              <span class="text-[10px] text-slate-400 font-normal">Max ${maxW}/minggu</span>
+            </div>
+            <div class="flex gap-1.5 pt-1">
+              ${makeSprintCardPill(countW1, 'Minggu 1')}
+              ${makeSprintCardPill(countW2, 'Minggu 2')}
+              ${makeSprintCardPill(countW3, 'Minggu 3')}
+              ${makeSprintCardPill(countW4, 'Minggu 4')}
+              ${makeSprintCardPill(countW5, 'Minggu 5')}
+            </div>
+          </div>
+
+          <!-- Project & Status Summary -->
+          <div class="space-y-2 pt-0.5">
+            <div>
+              <span class="text-[11px] font-bold text-slate-400 block mb-1">Proyek Ditangani Bulan Ini:</span>
+              <div class="flex flex-wrap gap-1.5">
+                ${prjBadges}
+              </div>
+            </div>
+            
+            <div class="pt-1 flex flex-wrap items-center gap-2 text-[10px] font-semibold">
+              <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-lg border border-emerald-500/20">✅ ${doneCount} Selesai</span>
+              <span class="px-2 py-0.5 bg-blue-500/10 text-blue-400 rounded-lg border border-blue-500/20">⚡ ${inProgressCount} Jalan</span>
+              <span class="px-2 py-0.5 bg-slate-800 text-slate-300 rounded-lg border border-slate-700">📝 ${todoCount} To Do</span>
+              ${blockerCount > 0 ? `<span class="px-2 py-0.5 bg-rose-500/15 text-rose-300 rounded-lg border border-rose-500/30 font-bold">⚠️ ${blockerCount} Blocker</span>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Bottom Actions -->
+        <div class="flex items-center justify-between pt-4 border-t border-slate-800/80 mt-4">
+          <button class="view-member-month-btn text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1.5 transition" data-name="${tm.name}">
+            <span>🔍</span> Filter Jadwal Bulan Ini
+          </button>
+          <div class="flex items-center gap-1.5">
+            <button class="edit-tm-btn p-1.5 rounded-lg bg-slate-800 hover:bg-purple-600/30 text-slate-400 hover:text-purple-400 transition" data-id="${tm.id}" title="Edit Data Anggota Tim">
+              ✏️
+            </button>
+            <button class="delete-tm-btn p-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/30 text-slate-400 hover:text-rose-400 transition" data-id="${tm.id}" title="Hapus Anggota Tim">
+              🗑️
+            </button>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+  } else {
+    // ==================== MODE B: WEEKLY VIEW ====================
+    const periodLabel = teamActiveWeek === 'all' 
+      ? `${formatMonthName(activeMonth)} (Semua Minggu)` 
+      : `${formatMonthName(activeMonth)} - ${teamActiveWeek}`;
+    
+    const teamKpiPeriodLabel = document.getElementById('teamKpiPeriodLabel');
+    if (teamKpiPeriodLabel) teamKpiPeriodLabel.textContent = periodLabel;
+
+    const periodTasks = tasks.filter(t => {
+      if (activeMonth !== 'all' && t.month !== activeMonth) return false;
+      if (teamActiveWeek !== 'all' && t.week !== teamActiveWeek) return false;
+      return true;
+    });
+
+    let overloadCount = 0;
+    let membersWithBlockers = 0;
+    let totalAssignedInPeriod = 0;
+
+    teamMembers.forEach(tm => {
+      const memberTasks = periodTasks.filter(t => t.pic && (t.pic === tm.name || t.pic.includes(tm.name)));
+      totalAssignedInPeriod += memberTasks.length;
+
+      const doneCount = memberTasks.filter(t => t.status && t.status.toLowerCase().includes('done')).length;
+      const blockerTasks = memberTasks.filter(t => t.blocker && t.blocker !== '-' && !t.status.toLowerCase().includes('done'));
+      if (blockerTasks.length > 0) membersWithBlockers++;
+
+      const maxTasks = tm.maxTasks || 4;
+      const taskCount = memberTasks.length;
+      const pct = Math.min(100, Math.round((taskCount / maxTasks) * 100));
+
+      let statusBadge = '';
+      let gaugeClass = '';
+      let statusSummary = '';
+
+      if (taskCount > maxTasks) {
+        overloadCount++;
+        statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 Overload (${taskCount}/${maxTasks})</span>`;
+        gaugeClass = 'gauge-danger';
+        statusSummary = `<span class="text-rose-400 font-semibold">Beban berlebih (+${taskCount - maxTasks} task dari kapasitas ideal).</span>`;
+      } else if (taskCount === maxTasks) {
+        statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🟡 Kapasitas Penuh (${taskCount}/${maxTasks})</span>`;
+        gaugeClass = 'gauge-warning';
+        statusSummary = `<span class="text-amber-400 font-semibold">Kapasitas maksimal tercapai. Hindari penambahan tugas baru.</span>`;
+      } else if (taskCount > 0) {
+        statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🟢 Optimal (${taskCount}/${maxTasks})</span>`;
+        gaugeClass = 'gauge-optimal';
+        statusSummary = `<span class="text-emerald-400 font-semibold">Beban kerja seimbang (${maxTasks - taskCount} slot tersisa).</span>`;
+      } else {
+        statusBadge = `<span class="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Kosong (0/${maxTasks})</span>`;
+        gaugeClass = 'bg-slate-700';
+        statusSummary = `<span class="text-slate-400">Kapasitas bebas penuh untuk dialokasikan tugas.</span>`;
+      }
+
+      const initials = getMemberInitials(tm.name);
+
+      let taskListHtml = '';
+      if (memberTasks.length === 0) {
+        taskListHtml = `<div class="p-3 text-center text-[11px] text-slate-500 bg-slate-950/60 rounded-xl border border-slate-800/80 italic">Belum ada tugas terjadwal di ${teamActiveWeek === 'all' ? 'semua minggu' : teamActiveWeek}.</div>`;
+      } else {
+        taskListHtml = `<div class="space-y-2 max-h-48 overflow-y-auto pr-1">`;
+        memberTasks.forEach(t => {
+          const isDone = t.status && t.status.toLowerCase().includes('done');
+          const hasBlocker = t.blocker && t.blocker !== '-' && !isDone;
+          const prj = getProjectById(t.projectId);
+
+          taskListHtml += `
+            <div class="p-2.5 bg-slate-950/70 border border-slate-800/90 rounded-xl text-xs space-y-1 hover:border-slate-700 transition">
+              <div class="flex items-center justify-between gap-1.5">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold badge-${prj.color || 'blue'}">
+                    ${prj.code || 'PRJ'}
+                  </span>
+                  <span class="text-[10px] font-semibold text-slate-400">${t.day} (${t.slot ? t.slot.split(':')[0] : 'Pagi'})</span>
+                </div>
+                <span class="text-[10px] font-bold ${isDone ? 'text-emerald-400' : 'text-blue-400'}">
+                  ${isDone ? '✅ Selesai' : t.status || 'To Do'}
+                </span>
+              </div>
+              <div class="font-medium text-slate-200 ${isDone ? 'line-through text-slate-500' : ''} truncate">
+                ${t.task}
+              </div>
+              ${hasBlocker ? `
+                <div class="text-[10px] text-rose-400 font-semibold flex items-center gap-1 bg-rose-500/10 px-2 py-0.5 rounded-lg border border-rose-500/20">
+                  <span>⚠️</span> Blocker: ${t.blocker}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+        taskListHtml += `</div>`;
+      }
+
+      const card = document.createElement('div');
+      card.className = "bg-slate-900/90 p-6 rounded-3xl border border-slate-800/90 shadow-xl space-y-4 hover:border-slate-700 transition flex flex-col justify-between";
+
+      card.innerHTML = `
+        <div class="space-y-4">
+          <!-- Header -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl avatar-circle text-white font-extrabold text-sm badge-${tm.color || 'blue'} shadow-md">
+                ${initials}
+              </div>
+              <div>
+                <h3 class="font-bold text-white text-base leading-tight">${tm.name}</h3>
+                <p class="text-xs text-slate-400 font-medium mt-0.5">${tm.role}</p>
+              </div>
+            </div>
+            ${statusBadge}
+          </div>
+
+          <!-- Workload Meter -->
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-400 font-medium">Beban Kerja Mingguan:</span>
+              <span class="font-bold text-white">${taskCount} / ${maxTasks} Task (${pct}%)</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden shadow-inner">
+              <div class="h-full rounded-full transition-all duration-500 ${gaugeClass}" style="width: ${Math.min(pct, 100)}%"></div>
+            </div>
+            <div class="text-[11px] leading-relaxed pt-0.5">
+              ${statusSummary}
+            </div>
+          </div>
+
+          <!-- Task Allocation -->
+          <div class="pt-1">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <span>📋</span> Tugas Alokasi (${memberTasks.length})
+              </span>
+              <span class="text-[10px] text-slate-400 font-semibold">
+                ${doneCount}/${memberTasks.length} Selesai
               </span>
             </div>
-            <div class="font-medium text-slate-200 ${isDone ? 'line-through text-slate-500' : ''} truncate">
-              ${t.task}
-            </div>
-            ${hasBlocker ? `
-              <div class="text-[10px] text-rose-400 font-semibold flex items-center gap-1 bg-rose-500/10 px-2 py-0.5 rounded-lg border border-rose-500/20">
-                <span>⚠️</span> Blocker: ${t.blocker}
-              </div>
-            ` : ''}
-          </div>
-        `;
-      });
-      taskListHtml += `</div>`;
-    }
-
-    const card = document.createElement('div');
-    card.className = "bg-slate-900/90 p-6 rounded-3xl border border-slate-800/90 shadow-xl space-y-4 hover:border-slate-700 transition flex flex-col justify-between";
-
-    card.innerHTML = `
-      <div class="space-y-4">
-        <!-- Header -->
-        <div class="flex items-start justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl avatar-circle text-white font-extrabold text-sm badge-${tm.color || 'blue'} shadow-md">
-              ${initials}
-            </div>
-            <div>
-              <h3 class="font-bold text-white text-base leading-tight">${tm.name}</h3>
-              <p class="text-xs text-slate-400 font-medium mt-0.5">${tm.role}</p>
-            </div>
-          </div>
-          ${statusBadge}
-        </div>
-
-        <!-- Workload Meter -->
-        <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 space-y-2">
-          <div class="flex justify-between items-center text-xs">
-            <span class="text-slate-400 font-medium">Beban Kerja Mingguan:</span>
-            <span class="font-bold text-white">${taskCount} / ${maxTasks} Task (${pct}%)</span>
-          </div>
-          <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden shadow-inner">
-            <div class="h-full rounded-full transition-all duration-500 ${gaugeClass}" style="width: ${Math.min(pct, 100)}%"></div>
-          </div>
-          <div class="text-[11px] leading-relaxed pt-0.5">
-            ${statusSummary}
+            ${taskListHtml}
           </div>
         </div>
 
-        <!-- Task Allocation -->
-        <div class="pt-1">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-              <span>📋</span> Tugas Alokasi (${memberTasks.length})
-            </span>
-            <span class="text-[10px] text-slate-400 font-semibold">
-              ${doneCount}/${memberTasks.length} Selesai
-            </span>
-          </div>
-          ${taskListHtml}
-        </div>
-      </div>
-
-      <!-- Card Bottom Actions -->
-      <div class="flex items-center justify-between pt-4 border-t border-slate-800/80 mt-4">
-        <button class="view-member-tasks-btn text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1.5 transition" data-name="${tm.name}">
-          <span>🔍</span> Filter di Jadwal
-        </button>
-        <div class="flex items-center gap-1.5">
-          <button class="edit-tm-btn p-1.5 rounded-lg bg-slate-800 hover:bg-purple-600/30 text-slate-400 hover:text-purple-400 transition" data-id="${tm.id}" title="Edit Data Anggota Tim">
-            ✏️
+        <!-- Card Bottom Actions -->
+        <div class="flex items-center justify-between pt-4 border-t border-slate-800/80 mt-4">
+          <button class="view-member-tasks-btn text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1.5 transition" data-name="${tm.name}">
+            <span>🔍</span> Filter di Jadwal
           </button>
-          <button class="delete-tm-btn p-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/30 text-slate-400 hover:text-rose-400 transition" data-id="${tm.id}" title="Hapus Anggota Tim">
-            🗑️
-          </button>
+          <div class="flex items-center gap-1.5">
+            <button class="edit-tm-btn p-1.5 rounded-lg bg-slate-800 hover:bg-purple-600/30 text-slate-400 hover:text-purple-400 transition" data-id="${tm.id}" title="Edit Data Anggota Tim">
+              ✏️
+            </button>
+            <button class="delete-tm-btn p-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/30 text-slate-400 hover:text-rose-400 transition" data-id="${tm.id}" title="Hapus Anggota Tim">
+              🗑️
+            </button>
+          </div>
         </div>
-      </div>
-    `;
+      `;
 
-    container.appendChild(card);
+      container.appendChild(card);
+    });
+
+    // Top Weekly KPI Counters
+    document.getElementById('teamKpiTotalMembers').textContent = `${teamMembers.length} orang`;
+    const kpiTasksTitle = document.getElementById('teamKpiTasksTitle');
+    if (kpiTasksTitle) kpiTasksTitle.textContent = "Task Tim Minggu Ini";
+    document.getElementById('teamKpiActiveTasks').textContent = `${totalAssignedInPeriod} task`;
+    
+    const kpiCapTitle = document.getElementById('teamKpiCapacityTitle');
+    if (kpiCapTitle) kpiCapTitle.textContent = "Kelebihan Beban (Overload)";
+    document.getElementById('teamKpiOverloadCount').textContent = `${overloadCount} orang`;
+    const kpiCapSub = document.getElementById('teamKpiCapacitySubtitle');
+    if (kpiCapSub) kpiCapSub.textContent = `> batas task di minggu ini`;
+
+    const kpiBlockerTitle = document.getElementById('teamKpiBlockerTitle');
+    if (kpiBlockerTitle) kpiBlockerTitle.textContent = "Anggota dengan Blocker";
+    document.getElementById('teamKpiBlockerCount').textContent = `${membersWithBlockers} orang`;
+    const kpiBlockerSub = document.getElementById('teamKpiBlockerSubtitle');
+    if (kpiBlockerSub) kpiBlockerSub.textContent = `Pekerjaan tertahan`;
+  }
+
+  // ==================== COMMON EVENT LISTENERS ====================
+  // Matrix week chips & Card sprint buttons (Jump to specific week)
+  document.querySelectorAll('.matrix-week-btn, .card-sprint-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const picName = btn.dataset.name;
+      const weekName = btn.dataset.week;
+      activePicFilter = picName;
+      activeWeek = weekName;
+      teamActiveWeek = weekName;
+
+      const picFilterSelect = document.getElementById('picFilterSelect');
+      if (picFilterSelect) picFilterSelect.value = picName;
+
+      const weekFilterSelect = document.getElementById('weekFilterSelect');
+      if (weekFilterSelect) weekFilterSelect.value = weekName;
+
+      const teamWeekFilterSelect = document.getElementById('teamWeekFilterSelect');
+      if (teamWeekFilterSelect) teamWeekFilterSelect.value = weekName;
+
+      switchTab('tasks');
+      updateDashboardMetrics();
+      renderTaskTable();
+      showToast(`Menampilkan jadwal ${picName} di ${weekName}`, 'info');
+    });
   });
 
-  // Attach card event listeners
+  // Filter entire month for member
+  document.querySelectorAll('.view-member-month-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const picName = btn.dataset.name;
+      activePicFilter = picName;
+      activeWeek = 'all';
+
+      const picFilterSelect = document.getElementById('picFilterSelect');
+      if (picFilterSelect) picFilterSelect.value = picName;
+
+      const weekFilterSelect = document.getElementById('weekFilterSelect');
+      if (weekFilterSelect) weekFilterSelect.value = 'all';
+
+      switchTab('tasks');
+      updateDashboardMetrics();
+      renderTaskTable();
+      showToast(`Menampilkan seluruh task bulan ini untuk PIC: ${picName}`, 'info');
+    });
+  });
+
+  // Weekly filter in tasks
   document.querySelectorAll('.view-member-tasks-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const picName = btn.dataset.name;
@@ -1060,12 +1500,50 @@ function renderTeamHub() {
   document.querySelectorAll('.delete-tm-btn').forEach(btn => {
     btn.addEventListener('click', () => deleteTeamMember(btn.dataset.id));
   });
+}
 
-  // Top KPI Counters
-  document.getElementById('teamKpiTotalMembers').textContent = `${teamMembers.length} orang`;
-  document.getElementById('teamKpiActiveTasks').textContent = `${totalAssignedInPeriod} task`;
-  document.getElementById('teamKpiOverloadCount').textContent = `${overloadCount} orang`;
-  document.getElementById('teamKpiBlockerCount').textContent = `${membersWithBlockers} orang`;
+// Team Workload View Controls Event Listeners
+const teamModeMonthlyBtn = document.getElementById('teamModeMonthlyBtn');
+const teamModeWeeklyBtn = document.getElementById('teamModeWeeklyBtn');
+const teamMonthFilterSelect = document.getElementById('teamMonthFilterSelect');
+const teamWeekFilterSelect = document.getElementById('teamWeekFilterSelect');
+
+if (teamModeMonthlyBtn) {
+  teamModeMonthlyBtn.addEventListener('click', () => {
+    teamViewMode = 'monthly';
+    renderTeamHub();
+  });
+}
+
+if (teamModeWeeklyBtn) {
+  teamModeWeeklyBtn.addEventListener('click', () => {
+    teamViewMode = 'weekly';
+    renderTeamHub();
+  });
+}
+
+if (teamMonthFilterSelect) {
+  teamMonthFilterSelect.addEventListener('change', (e) => {
+    activeMonth = e.target.value;
+    renderMonthSelector();
+    updateDashboardMetrics();
+    renderTaskTable();
+    renderTeamHub();
+    showToast(`Bulan aktif diubah ke: ${formatMonthName(activeMonth)}`, 'info');
+  });
+}
+
+if (teamWeekFilterSelect) {
+  teamWeekFilterSelect.addEventListener('change', (e) => {
+    teamActiveWeek = e.target.value;
+    activeWeek = e.target.value;
+    const weekFilterInTasks = document.getElementById('weekFilterSelect');
+    if (weekFilterInTasks) weekFilterInTasks.value = e.target.value;
+    updateDashboardMetrics();
+    renderTaskTable();
+    renderTeamHub();
+    showToast(`Minggu aktif diubah ke: ${teamActiveWeek === 'all' ? 'Semua Minggu' : teamActiveWeek}`, 'info');
+  });
 }
 
 // 3-Tab View Navigation
