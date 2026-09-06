@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IT PM Weekly Task & Capacity Planner</title>
+  <title>IT PM Workspace: Projects, Capacity & Team Workload</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="bg-slate-950 text-slate-100 font-['Plus_Jakarta_Sans',sans-serif] antialiased p-4 md:p-8 min-h-screen">
   <div class="max-w-7xl mx-auto space-y-6">
@@ -16,187 +16,356 @@
     <!-- Top Toast Notification -->
     <div id="toastNotification" class="fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold border"></div>
 
-    <!-- Header & Action Bar -->
-    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/90 backdrop-blur-md p-6 rounded-3xl border border-slate-800/80 shadow-xl">
-      <div>
-        <div class="flex items-center gap-2 mb-1.5">
-          <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/30">
-            Junior IT PM Edition
-          </span>
-          <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-            Hybrid (PM + Teknis)
-          </span>
+    <!-- Header & App Navigation Tabs -->
+    <header class="bg-slate-900/90 backdrop-blur-md p-6 rounded-3xl border border-slate-800/80 shadow-xl space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/30">
+              IT PM Enterprise Workspace
+            </span>
+            <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+              Projects &bull; Sprints &bull; Team
+            </span>
+          </div>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">IT Project & Team Workspace</h1>
+          <p class="text-xs md:text-sm text-slate-400 mt-1">Kelola proyek & deadline, pantau alokasi mingguan, dan seimbangkan beban kerja tim (*Team Workload*).</p>
         </div>
-        <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Weekly Task & Capacity Planner</h1>
-        <p class="text-xs md:text-sm text-slate-400 mt-1">Input langsung tugas kantor, pantau rasio beban kerja, dan kendalikan ritme kerja mingguan.</p>
+
+        <!-- Global Action Buttons -->
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button id="openAddTaskModalBtn" class="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/25 transition transform active:scale-95">
+            <span class="text-base leading-none">+</span> Tambah Task
+          </button>
+          <button id="openAddProjectModalBtn" class="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/25 transition transform active:scale-95">
+            <span class="text-base leading-none">+</span> Tambah Proyek
+          </button>
+          <button id="openAddTeamModalBtn" class="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/25 transition transform active:scale-95">
+            <span class="text-base leading-none">+</span> Tambah Tim
+          </button>
+          <button id="openBackupModalBtn" class="flex items-center gap-1.5 px-3.5 py-2.5 text-xs font-medium rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/80 transition">
+            <span>💾</span> Cadangan
+          </button>
+        </div>
       </div>
 
-      <!-- Quick Action Buttons -->
-      <div class="flex flex-wrap items-center gap-2.5">
-        <button id="openAddTaskModalBtn" class="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/25 transition transform active:scale-95">
-          <span class="text-base leading-none">+</span> Tambah Task Baru
+      <!-- Main Navigation Tabs (3 Tabs) -->
+      <div class="flex flex-wrap items-center gap-2 border-t border-slate-800/80 pt-4 text-xs font-bold">
+        <button id="navTabTasks" class="nav-tab px-4 py-2 rounded-xl bg-blue-600 text-white shadow-sm flex items-center gap-2 transition">
+          <span>📋</span> Rencana Tugas Mingguan
         </button>
-        <button id="openBackupModalBtn" class="flex items-center gap-1.5 px-3.5 py-2.5 text-xs font-medium rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/80 transition">
-          <span>💾</span> Cadangan / Ekspor
+        <button id="navTabProjects" class="nav-tab px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
+          <span>📁</span> Daftar Proyek & Master Tasks (<span id="navProjectCount">0</span>)
         </button>
-        <button id="exportMdBtn" class="flex items-center gap-1.5 px-3.5 py-2.5 text-xs font-medium rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/80 transition">
-          <span>📋</span> Salin Markdown
+        <button id="navTabTeam" class="nav-tab px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
+          <span>👥</span> Beban Kerja Tim (<span id="navTeamCount">0</span>)
         </button>
       </div>
     </header>
 
-    <!-- Capacity Analytics & KPI Cards -->
-    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <!-- ==================== VIEW 1: WEEKLY TASKS VIEW ==================== -->
+    <div id="viewTasks" class="space-y-6">
+
+      <!-- Month, Week & Auto-Schedule Bar -->
+      <section class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800/80 shadow-md flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5 mr-1">
+            <span>🗓️</span> Periode:
+          </span>
+          <div id="monthSelectorContainer" class="flex flex-wrap items-center gap-1.5">
+            <!-- Dynamic Month Pills -->
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Week Selector -->
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-medium text-slate-400">Minggu:</span>
+            <select id="weekFilterSelect" class="px-3 py-1.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white font-medium focus:outline-none focus:border-blue-500">
+              <option value="all">Semua Minggu</option>
+              <option value="Minggu 1">Minggu 1</option>
+              <option value="Minggu 2" selected>Minggu 2</option>
+              <option value="Minggu 3">Minggu 3</option>
+              <option value="Minggu 4">Minggu 4</option>
+              <option value="Minggu 5">Minggu 5</option>
+            </select>
+          </div>
+
+          <!-- Project Filter -->
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-medium text-slate-400">Proyek:</span>
+            <select id="projectFilterSelect" class="px-3 py-1.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white font-medium focus:outline-none focus:border-blue-500 max-w-[170px]">
+              <option value="all">Semua Proyek</option>
+              <!-- Dynamic options -->
+            </select>
+          </div>
+
+          <!-- PIC Team Filter -->
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-medium text-slate-400">PIC:</span>
+            <select id="picFilterSelect" class="px-3 py-1.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white font-medium focus:outline-none focus:border-blue-500 max-w-[150px]">
+              <option value="all">Semua PIC</option>
+              <!-- Dynamic PIC options -->
+            </select>
+          </div>
+
+          <!-- SMART AUTO-SCHEDULE BUTTON -->
+          <button id="autoScheduleBtn" class="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md shadow-indigo-600/25 transition transform active:scale-95" title="Otomatis isi jadwal mingguan dari master task proyek">
+            <span>✨</span> Auto-Schedule Minggu Ini
+          </button>
+        </div>
+      </section>
+
+      <!-- Capacity Analytics & KPI Cards -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- PM Load Card -->
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md relative overflow-hidden group">
+          <div class="flex justify-between items-center text-xs font-medium text-slate-400">
+            <span>Porsi Tugas PM</span>
+            <span class="w-3 h-3 rounded-full bg-blue-500 shadow-lg shadow-blue-500/50"></span>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span id="pmRatio" class="text-3xl font-extrabold text-blue-400">50%</span>
+            <span id="pmCount" class="text-xs font-semibold text-slate-400">(5 task)</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">Koordinasi, MoM, Ceremony & Unblock</p>
+          <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-blue-500/5 rounded-full blur-xl group-hover:bg-blue-500/10 transition"></div>
+        </div>
+
+        <!-- Technical Load Card -->
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md relative overflow-hidden group">
+          <div class="flex justify-between items-center text-xs font-medium text-slate-400">
+            <span>Porsi Tugas Teknis</span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50"></span>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span id="techRatio" class="text-3xl font-extrabold text-emerald-400">50%</span>
+            <span id="techCount" class="text-xs font-semibold text-slate-400">(5 task)</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">Dev, QA, Database Query, Debugging</p>
+          <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-emerald-500/5 rounded-full blur-xl group-hover:bg-emerald-500/10 transition"></div>
+        </div>
+
+        <!-- Completion Rate Card -->
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md relative overflow-hidden group">
+          <div class="flex justify-between items-center text-xs font-medium text-slate-400">
+            <span>Progres Selesai</span>
+            <span class="w-3 h-3 rounded-full bg-purple-500 shadow-lg shadow-purple-500/50"></span>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span id="doneProgress" class="text-3xl font-extrabold text-white">30%</span>
+            <span id="doneCount" class="text-xs font-semibold text-slate-400">(3/10 task)</span>
+          </div>
+          <div class="w-full bg-slate-800 h-2 rounded-full mt-2.5 overflow-hidden">
+            <div id="doneProgressBar" class="bg-purple-500 h-full rounded-full transition-all duration-500" style="width: 30%"></div>
+          </div>
+        </div>
+
+        <!-- Active Blockers Card -->
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md relative overflow-hidden group">
+          <div class="flex justify-between items-center text-xs font-medium text-slate-400">
+            <span>Active Blockers</span>
+            <span class="w-3 h-3 rounded-full bg-rose-500 shadow-lg shadow-rose-500/50"></span>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span id="blockerCount" class="text-3xl font-extrabold text-rose-400">3</span>
+            <span class="text-xs font-semibold text-slate-400">tugas terhambat</span>
+          </div>
+          <p class="text-[11px] text-rose-400/80 mt-1">Membutuhkan eskalasi segera</p>
+          <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-rose-500/5 rounded-full blur-xl group-hover:bg-rose-500/10 transition"></div>
+        </div>
+      </section>
+
+      <!-- Ratio Bar Visualizer & Dynamic Insight -->
+      <section class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md space-y-3">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-1.5 text-xs font-bold">
+          <span class="text-blue-400 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> 
+            Alokasi PM (Koordinasi): <span id="barPmLabel">50%</span>
+          </span>
+          <span class="text-emerald-400 flex items-center gap-1.5">
+            Alokasi Teknis (Deep Work): <span id="barTechLabel">50%</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+          </span>
+        </div>
+
+        <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden flex shadow-inner">
+          <div id="barPmVisual" class="bg-blue-500 h-full transition-all duration-500" style="width: 50%"></div>
+          <div id="barTechVisual" class="bg-emerald-500 h-full transition-all duration-500" style="width: 50%"></div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pt-1">
+          <div id="capacityAdvice" class="text-xs font-medium text-slate-300 flex items-center gap-2">
+            <!-- Dynamically populated insight -->
+          </div>
+          <div class="text-[11px] text-slate-400 flex items-center gap-3">
+            <span>🌅 <b>Pagi:</b> 09:00 - 12:00 (PM & Sync)</span>
+            <span>⚡ <b>Siang:</b> 13:30 - 17:00 (Teknis)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filters, Search & Bulk Actions -->
+      <section class="flex flex-wrap items-center justify-between gap-3 pt-1">
+        <div class="flex flex-wrap items-center gap-1.5 p-1 bg-slate-900 border border-slate-800 rounded-2xl text-xs">
+          <button class="filter-btn px-3.5 py-2 rounded-xl font-bold transition bg-blue-600 text-white shadow-sm" data-filter="all">Semua Task (<span id="countFilterAll">0</span>)</button>
+          <button class="filter-btn px-3.5 py-2 rounded-xl font-semibold transition text-slate-400 hover:text-slate-200" data-filter="PM">🟦 PM Saja</button>
+          <button class="filter-btn px-3.5 py-2 rounded-xl font-semibold transition text-slate-400 hover:text-slate-200" data-filter="Teknis">🟩 Teknis Saja</button>
+          <button class="filter-btn px-3.5 py-2 rounded-xl font-semibold transition text-slate-400 hover:text-slate-200" data-filter="P1">🚨 P1 High</button>
+          <button class="filter-btn px-3.5 py-2 rounded-xl font-semibold transition text-slate-400 hover:text-slate-200" data-filter="Blocker">⚠️ Has Blocker</button>
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <div class="relative w-full sm:w-64">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-500 text-xs">🔍</span>
+            <input id="searchInput" type="text" placeholder="Cari task, PIC, deliverable..." class="w-full pl-8 pr-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
+          </div>
+          <button id="exportMdBtn" class="px-3 py-2 text-xs font-medium rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/80 transition whitespace-nowrap" title="Salin Tabel ke Markdown">
+            📋 Markdown
+          </button>
+        </div>
+      </section>
+
+      <!-- Bulk Action Bar -->
+      <div id="bulkActionBar" class="hidden items-center justify-between p-4 bg-slate-900 border border-blue-500/50 rounded-2xl shadow-2xl animate-fade-in text-xs font-semibold text-white">
+        <div class="flex items-center gap-3">
+          <span id="selectedCountBadge" class="px-3 py-1 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-sm">0 dipilih</span>
+          <span class="text-slate-300">Tindakan massal:</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="bulkMarkDoneBtn" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 rounded-xl transition flex items-center gap-1.5 font-bold active:scale-95">
+            <span>✅</span> Tandai Selesai
+          </button>
+          <button id="bulkDeleteBtn" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl shadow-lg shadow-rose-600/30 transition flex items-center gap-1.5 active:scale-95">
+            <span>🗑️</span> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
+          </button>
+          <button id="cancelSelectionBtn" class="px-3 py-2 text-slate-400 hover:text-white transition">
+            Batal
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Tasks Table -->
+      <main class="bg-slate-900/90 rounded-3xl border border-slate-800/80 shadow-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-800/90 text-slate-300 border-b border-slate-700/60 uppercase text-[10px] tracking-wider font-bold">
+              <tr>
+                <th class="p-4 w-12 text-center">
+                  <input type="checkbox" id="selectAllCheckbox" class="rounded-md border-slate-700 bg-slate-800 text-blue-600 focus:ring-0 cursor-pointer h-4 w-4" title="Pilih Semua Task">
+                </th>
+                <th class="p-4 whitespace-nowrap">Hari & Slot</th>
+                <th class="p-4 whitespace-nowrap">Proyek Terkait</th>
+                <th class="p-4 whitespace-nowrap">Periode</th>
+                <th class="p-4 whitespace-nowrap">Jenis</th>
+                <th class="p-4 min-w-[240px]">Aktivitas / Task</th>
+                <th class="p-4 whitespace-nowrap">Kategori</th>
+                <th class="p-4 whitespace-nowrap">Prioritas</th>
+                <th class="p-4 min-w-[180px]">Blocker & Ketergantungan</th>
+                <th class="p-4 min-w-[180px]">Target Deliverable</th>
+                <th class="p-4 text-center whitespace-nowrap">Status</th>
+                <th class="p-4 text-center w-24 whitespace-nowrap">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="taskTableBody" class="divide-y divide-slate-800/80 font-normal">
+              <!-- Dynamically Rendered Task Rows -->
+            </tbody>
+          </table>
+        </div>
+      </main>
+
+    </div>
+
+    <!-- ==================== VIEW 2: PROJECT HUB & MASTER TASKS ==================== -->
+    <div id="viewProjects" class="space-y-6 hidden">
       
-      <!-- PM Load Card -->
-      <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md relative overflow-hidden group">
-        <div class="flex justify-between items-center text-xs font-medium text-slate-400">
-          <span>Porsi Tugas PM</span>
-          <span class="w-3 h-3 rounded-full bg-blue-500 shadow-lg shadow-blue-500/50"></span>
+      <!-- Project Hub Header Banner -->
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-slate-900/80 p-6 rounded-3xl border border-slate-800/80 shadow-md">
+        <div>
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>📁</span> Portofolio Proyek & Master Tasks
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">Pantau indikator kesehatan deadline (On-Track / At-Risk / Overdue) berdasarkan kalkulasi sisa hari kerja vs sisa hari kalender.</p>
         </div>
-        <div class="mt-3 flex items-baseline gap-2">
-          <span id="pmRatio" class="text-3xl font-extrabold text-blue-400">50%</span>
-          <span id="pmCount" class="text-xs font-semibold text-slate-400">(5 task)</span>
-        </div>
-        <p class="text-[11px] text-slate-400 mt-1">Koordinasi, MoM, Ceremony & Unblock</p>
-        <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-blue-500/5 rounded-full blur-xl group-hover:bg-blue-500/10 transition"></div>
+        <button id="openAddProjectModalBtn2" class="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/25 transition">
+          <span class="text-base leading-none">+</span> Tambah Proyek Baru
+        </button>
       </div>
 
-      <!-- Technical Load Card -->
-      <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md relative overflow-hidden group">
-        <div class="flex justify-between items-center text-xs font-medium text-slate-400">
-          <span>Porsi Tugas Teknis</span>
-          <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50"></span>
-        </div>
-        <div class="mt-3 flex items-baseline gap-2">
-          <span id="techRatio" class="text-3xl font-extrabold text-emerald-400">50%</span>
-          <span id="techCount" class="text-xs font-semibold text-slate-400">(5 task)</span>
-        </div>
-        <p class="text-[11px] text-slate-400 mt-1">Dev, QA, Database Query, Debugging</p>
-        <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-emerald-500/5 rounded-full blur-xl group-hover:bg-emerald-500/10 transition"></div>
+      <!-- Projects Grid Cards -->
+      <div id="projectsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Dynamic Project Cards Rendered Here -->
       </div>
 
-      <!-- Completion Rate Card -->
-      <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md relative overflow-hidden group">
-        <div class="flex justify-between items-center text-xs font-medium text-slate-400">
-          <span>Progres Selesai</span>
-          <span class="w-3 h-3 rounded-full bg-purple-500 shadow-lg shadow-purple-500/50"></span>
+    </div>
+
+    <!-- ==================== VIEW 3: TEAM WORKLOAD DASHBOARD ==================== -->
+    <div id="viewTeam" class="space-y-6 hidden">
+      
+      <!-- Team Workload Header & Summary -->
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-slate-900/80 p-6 rounded-3xl border border-slate-800/80 shadow-md">
+        <div>
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>👥</span> Beban Kerja Tim (*Team Workload*)
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">Pantau distribusi tugas mingguan per anggota tim untuk mencegah *bottleneck* dan kelebihan beban (*overloaded*).</p>
         </div>
-        <div class="mt-3 flex items-baseline gap-2">
-          <span id="doneProgress" class="text-3xl font-extrabold text-white">30%</span>
-          <span id="doneCount" class="text-xs font-semibold text-slate-400">(3/10 task)</span>
+        <button id="openAddTeamModalBtn2" class="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/25 transition">
+          <span class="text-base leading-none">+</span> Tambah Anggota Tim
+        </button>
+      </div>
+
+      <!-- Team Overview KPI Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-sm">
+          <span class="text-xs text-slate-400 font-medium">Total Tim Aktif</span>
+          <div class="mt-2 text-2xl font-bold text-white" id="teamKpiTotalMembers">0 orang</div>
+          <p class="text-[11px] text-slate-400 mt-1">Kapasitas lintas fungsi</p>
         </div>
-        <div class="w-full bg-slate-800 h-2 rounded-full mt-2.5 overflow-hidden">
-          <div id="doneProgressBar" class="bg-purple-500 h-full rounded-full transition-all duration-500" style="width: 30%"></div>
+
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-sm">
+          <span class="text-xs text-slate-400 font-medium">Task Tim Minggu Ini</span>
+          <div class="mt-2 text-2xl font-bold text-blue-400" id="teamKpiActiveTasks">0 task</div>
+          <p class="text-[11px] text-slate-400 mt-1" id="teamKpiPeriodLabel">Periode aktif</p>
+        </div>
+
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-sm">
+          <span class="text-xs text-slate-400 font-medium">Kelebihan Beban (Overload)</span>
+          <div class="mt-2 text-2xl font-bold text-rose-400" id="teamKpiOverloadCount">0 orang</div>
+          <p class="text-[11px] text-rose-400/80 mt-1">&gt; 5 task di minggu ini</p>
+        </div>
+
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-sm">
+          <span class="text-xs text-slate-400 font-medium">Anggota dengan Blocker</span>
+          <div class="mt-2 text-2xl font-bold text-amber-400" id="teamKpiBlockerCount">0 orang</div>
+          <p class="text-[11px] text-amber-400/80 mt-1">Pekerjaan tertahan</p>
         </div>
       </div>
 
-      <!-- Active Blockers Card -->
-      <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md relative overflow-hidden group">
-        <div class="flex justify-between items-center text-xs font-medium text-slate-400">
-          <span>Active Blockers</span>
-          <span class="w-3 h-3 rounded-full bg-rose-500 shadow-lg shadow-rose-500/50"></span>
-        </div>
-        <div class="mt-3 flex items-baseline gap-2">
-          <span id="blockerCount" class="text-3xl font-extrabold text-rose-400">3</span>
-          <span class="text-xs font-semibold text-slate-400">tugas terhambat</span>
-        </div>
-        <p class="text-[11px] text-rose-400/80 mt-1">Membutuhkan eskalasi segera</p>
-        <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-rose-500/5 rounded-full blur-xl group-hover:bg-rose-500/10 transition"></div>
+      <!-- Team Members Workload Grid -->
+      <div id="teamGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamically rendered team cards -->
       </div>
 
-    </section>
-
-    <!-- Ratio Bar Visualizer & Dynamic Insight -->
-    <section class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 shadow-md space-y-3">
-      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-1.5 text-xs font-bold">
-        <span class="text-blue-400 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> 
-          Alokasi PM (Koordinasi): <span id="barPmLabel">50%</span>
-        </span>
-        <span class="text-emerald-400 flex items-center gap-1.5">
-          Alokasi Teknis (Deep Work): <span id="barTechLabel">50%</span>
-          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
-        </span>
-      </div>
-
-      <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden flex shadow-inner">
-        <div id="barPmVisual" class="bg-blue-500 h-full transition-all duration-500" style="width: 50%"></div>
-        <div id="barTechVisual" class="bg-emerald-500 h-full transition-all duration-500" style="width: 50%"></div>
-      </div>
-
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pt-1">
-        <div id="capacityAdvice" class="text-xs font-medium text-slate-300 flex items-center gap-2">
-          <!-- Dynamically populated insight -->
-        </div>
-        <div class="text-[11px] text-slate-400 flex items-center gap-3">
-          <span>🌅 <b>Pagi:</b> 09:00 - 12:00 (PM & Sync)</span>
-          <span>⚡ <b>Siang:</b> 13:30 - 17:00 (Teknis)</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Filters, Search & Bulk Actions -->
-    <section class="flex flex-wrap items-center justify-between gap-3 pt-1">
-      <div class="flex flex-wrap items-center gap-1.5 p-1 bg-slate-900 border border-slate-800 rounded-2xl text-xs">
-        <button class="filter-btn px-3.5 py-2 rounded-xl font-bold transition bg-blue-600 text-white shadow-sm" data-filter="all">Semua Task (<span id="countFilterAll">0</span>)</button>
-        <button class="filter-btn px-3.5 py-2 rounded-xl font-semibold transition text-slate-400 hover:text-slate-200" data-filter="PM">🟦 PM Saja</button>
-        <button class="filter-btn px-3.5 py-2 rounded-xl font-semibold transition text-slate-400 hover:text-slate-200" data-filter="Teknis">🟩 Teknis Saja</button>
-        <button class="filter-btn px-3.5 py-2 rounded-xl font-semibold transition text-slate-400 hover:text-slate-200" data-filter="P1">🚨 P1 High</button>
-        <button class="filter-btn px-3.5 py-2 rounded-xl font-semibold transition text-slate-400 hover:text-slate-200" data-filter="Blocker">⚠️ Has Blocker</button>
-      </div>
-
-      <div class="flex items-center gap-2 w-full sm:w-auto">
-        <div class="relative w-full sm:w-64">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-500 text-xs">🔍</span>
-          <input id="searchInput" type="text" placeholder="Cari task, proyek, PIC..." class="w-full pl-8 pr-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
-        </div>
-      </div>
-    </section>
-
-    <!-- Main Tasks Table -->
-    <main class="bg-slate-900/90 rounded-3xl border border-slate-800/80 shadow-2xl overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-800/90 text-slate-300 border-b border-slate-700/60 uppercase text-[10px] tracking-wider font-bold">
-            <tr>
-              <th class="p-4 w-12 text-center">Done</th>
-              <th class="p-4">Hari & Slot</th>
-              <th class="p-4">Proyek</th>
-              <th class="p-4">Jenis</th>
-              <th class="p-4 min-w-[240px]">Aktivitas / Task</th>
-              <th class="p-4">Kategori</th>
-              <th class="p-4">Prioritas</th>
-              <th class="p-4 min-w-[180px]">Blocker & Ketergantungan</th>
-              <th class="p-4 min-w-[180px]">Target Deliverable</th>
-              <th class="p-4 text-center">Status</th>
-              <th class="p-4 text-center w-24">Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="taskTableBody" class="divide-y divide-slate-800/80 font-normal">
-            <!-- Dynamically Rendered Task Rows -->
-          </tbody>
-        </table>
-      </div>
-    </main>
+    </div>
 
     <!-- Footer Information -->
-    <footer class="text-center text-xs text-slate-400 pt-2 pb-6 space-y-1">
-      <p>IT Project Management Weekly Workspace &bull; Ready for Vercel Deployment</p>
+    <footer class="text-center text-xs text-slate-400 pt-4 pb-6 space-y-1">
+      <p>IT Project Management Enterprise Workspace &bull; Master Project Backlog & Capacity Planning</p>
       <p class="text-[11px] text-slate-400">Data tersimpan otomatis secara aman di browser Anda (LocalStorage).</p>
     </footer>
 
   </div>
 
-  <!-- MODAL 1: ADD / EDIT TASK -->
+  <!-- ==================== MODAL 1: ADD / EDIT WEEKLY TASK ==================== -->
   <div id="taskModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
     <div class="bg-slate-900 border border-slate-700/90 rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl space-y-6 text-slate-100 max-h-[90vh] overflow-y-auto">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-slate-800 pb-4">
         <div>
-          <h3 id="modalTitle" class="text-lg font-bold text-white">Tambah Task Baru</h3>
-          <p class="text-xs text-slate-400 mt-0.5">Isi detail aktivitas kerja mingguan Anda secara lengkap.</p>
+          <h3 id="modalTitle" class="text-lg font-bold text-white">Tambah Task Mingguan</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Pilih dari master task proyek yang sudah ada atau buat baru secara fleksibel.</p>
         </div>
         <button id="closeTaskModalBtn" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-lg transition">&times;</button>
       </div>
@@ -205,8 +374,42 @@
       <form id="taskForm" class="space-y-4">
         <input type="hidden" id="editTaskId" value="">
 
+        <!-- Relasi Proyek & Pilihan Master Task -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Hari -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">1. Pilih Proyek <span class="text-rose-500">*</span></label>
+            <select id="taskProjectId" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">2. Pilih Master Task Proyek</label>
+            <select id="taskMasterSelect" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Deskripsi Tugas -->
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <label class="block text-xs font-semibold text-slate-300">Deskripsi / Judul Task Mingguan <span class="text-rose-500">*</span></label>
+            <span class="text-[11px] text-slate-400 italic">Otomatis terisi dari master task atau ketik bebas</span>
+          </div>
+          <textarea id="taskDescription" required rows="2" placeholder="Nama aktivitas atau tugas mingguan..." class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"></textarea>
+        </div>
+
+        <!-- Jenis Pekerjaan, Hari, Slot -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Jenis Pekerjaan <span class="text-rose-500">*</span></label>
+            <select id="taskType" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
+              <option value="PM">🟦 PM (Koordinasi, MoM, Ceremony)</option>
+              <option value="Teknis">🟩 Teknis (Coding, QA, Debugging)</option>
+            </select>
+          </div>
+
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1.5">Hari <span class="text-rose-500">*</span></label>
             <select id="taskDay" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
@@ -219,75 +422,69 @@
             </select>
           </div>
 
-          <!-- Slot Waktu -->
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Slot Waktu (Time-Block) <span class="text-rose-500">*</span></label>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Slot Waktu <span class="text-rose-500">*</span></label>
             <select id="taskSlot" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
-              <option value="Pagi: 09-12">🌅 Pagi (09:00 - 12:00) &bull; Rapat & Sync</option>
-              <option value="Siang: 13-17">⚡ Siang/Sore (13:30 - 17:00) &bull; Deep Work</option>
-              <option value="Fleksibel">🌙 Fleksibel / Kapan Saja</option>
+              <option value="Pagi: 09-12">🌅 Pagi (09:00 - 12:00)</option>
+              <option value="Siang: 13-17">⚡ Siang/Sore (13:30 - 17:00)</option>
+              <option value="Fleksibel">🌙 Fleksibel / Overtime</option>
             </select>
           </div>
         </div>
 
+        <!-- Periode Bulan & Minggu -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Proyek / Sprint -->
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nama Proyek / Sprint <span class="text-rose-500">*</span></label>
-            <input id="taskProject" type="text" required placeholder="Contoh: App Mobile v2.1 (Sprint 14)" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Bulan Pelaksanaan <span class="text-rose-500">*</span></label>
+            <input id="taskMonth" type="month" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
           </div>
 
-          <!-- Jenis Pekerjaan -->
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Jenis Pekerjaan <span class="text-rose-500">*</span></label>
-            <select id="taskType" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
-              <option value="PM">🟦 PM (Koordinasi, MoM, Ceremony, Stakeholder)</option>
-              <option value="Teknis">🟩 Teknis (Coding, QA, Database, Debugging)</option>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Minggu ke- <span class="text-rose-500">*</span></label>
+            <select id="taskWeek" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
+              <option value="Minggu 1">Minggu 1</option>
+              <option value="Minggu 2" selected>Minggu 2</option>
+              <option value="Minggu 3">Minggu 3</option>
+              <option value="Minggu 4">Minggu 4</option>
+              <option value="Minggu 5">Minggu 5</option>
             </select>
           </div>
         </div>
 
-        <!-- Deskripsi Tugas -->
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Aktivitas / Deskripsi Tugas <span class="text-rose-500">*</span></label>
-          <textarea id="taskDescription" required rows="2" placeholder="Jelaskan aktivitas atau tugas yang perlu dikerjakan..." class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"></textarea>
-        </div>
-
+        <!-- Kategori, PIC (Dropdown Anggota Tim Terpadu), Prioritas -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- Kategori -->
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1.5">Kategori</label>
-            <input id="taskCategory" type="text" placeholder="Contoh: Ceremony, Backend, Frontend" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <input id="taskCategory" type="text" placeholder="Ceremony, Backend, dll." class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
           </div>
 
-          <!-- Stakeholder / PIC -->
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Stakeholder / PIC Terkait</label>
-            <input id="taskPic" type="text" placeholder="Contoh: Tech Lead, PO, Klien" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">PIC / Anggota Tim <span class="text-rose-500">*</span></label>
+            <select id="taskPicSelect" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
+              <!-- Dynamically populated from teamMembers -->
+            </select>
           </div>
 
-          <!-- Prioritas -->
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1.5">Prioritas</label>
             <select id="taskPriority" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
-              <option value="P1 (High)">🚨 P1 (High Priority)</option>
-              <option value="P2 (Med)" selected>⚠️ P2 (Medium)</option>
-              <option value="P3 (Low)">☕ P3 (Low Priority)</option>
+              <option value="P1 (High)">🚨 P1 (High)</option>
+              <option value="P2 (Med)" selected>⚠️ P2 (Med)</option>
+              <option value="P3 (Low)">☕ P3 (Low)</option>
             </select>
           </div>
         </div>
 
+        <!-- Blocker & Deliverable -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Blocker & Ketergantungan -->
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Blocker / Menunggu Pihak Lain</label>
-            <input id="taskBlocker" type="text" placeholder="Kosongkan atau beri '-' jika tidak ada blocker" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Blocker / Menunggu Siapa</label>
+            <input id="taskBlocker" type="text" placeholder="Beri '-' jika tidak ada blocker" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
           </div>
 
-          <!-- Target Deliverable -->
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1.5">Target Output / Deliverable</label>
-            <input id="taskDeliverable" type="text" placeholder="Contoh: MoM dikirim, PR dimerge, Jira updated" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <input id="taskDeliverable" type="text" placeholder="MoM, PR Git, Jira updated" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
           </div>
         </div>
 
@@ -295,9 +492,9 @@
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1.5">Status Awal</label>
           <select id="taskStatus" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
-            <option value="To Do">To Do (Belum Dikerjakan)</option>
-            <option value="In Progress">In Progress (Sedang Dikerjakan)</option>
-            <option value="Done">Done (Selesai)</option>
+            <option value="To Do">To Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
           </select>
         </div>
 
@@ -314,7 +511,218 @@
     </div>
   </div>
 
-  <!-- MODAL 2: BACKUP & RESTORE DATA -->
+  <!-- ==================== MODAL 2: ADD / EDIT PROJECT ==================== -->
+  <div id="projectModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700/90 rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl space-y-6 text-slate-100 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h3 id="projectModalTitle" class="text-lg font-bold text-white">Tambah Proyek Baru</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Daftarkan proyek baru beserta target deadline keseluruhan.</p>
+        </div>
+        <button id="closeProjectModalBtn" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-lg transition">&times;</button>
+      </div>
+
+      <form id="projectForm" class="space-y-4">
+        <input type="hidden" id="editProjectId" value="">
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nama Proyek <span class="text-rose-500">*</span></label>
+          <input id="projectName" type="text" required placeholder="Contoh: App Mobile v2.1" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Kode Singkat</label>
+            <input id="projectCode" type="text" placeholder="MOB, CRM, WEB" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 uppercase">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Klien / Stakeholder</label>
+            <input id="projectClient" type="text" placeholder="Internal, PT Klien X" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Status Proyek</label>
+            <select id="projectStatus" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500">
+              <option value="Active" selected>🟢 Active</option>
+              <option value="On Hold">🟡 On Hold</option>
+              <option value="Completed">🔵 Completed</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Target Deadline Proyek</label>
+            <input id="projectTargetDate" type="date" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Warna Aksen Badge</label>
+          <select id="projectColor" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-emerald-500">
+            <option value="blue" selected>🟦 Biru (Standard)</option>
+            <option value="emerald">🟩 Hijau (Operations / Infra)</option>
+            <option value="purple">🟪 Ungu (Backend / Core)</option>
+            <option value="amber">🟨 Amber / Kuning (Client CRM)</option>
+            <option value="rose">🟥 Merah (Urgent / Security)</option>
+            <option value="cyan">🩵 Cyan (UI / Frontend)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Deskripsi / Ruang Lingkup</label>
+          <textarea id="projectDescription" rows="2" placeholder="Catatan tujuan atau ruang lingkup proyek..." class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"></textarea>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-800">
+          <button type="button" id="cancelProjectModalBtn" class="px-4 py-2.5 text-xs font-semibold rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+            Batal
+          </button>
+          <button type="submit" class="px-5 py-2.5 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 transition">
+            Simpan Proyek
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: ADD / EDIT MASTER TASK PER PROJECT ==================== -->
+  <div id="masterTaskModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700/90 rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl space-y-6 text-slate-100 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h3 id="masterTaskModalTitle" class="text-lg font-bold text-white">Tambah Master Task Proyek</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Definisikan task proyek lengkap dengan jenis, bobot, deadline, dan PIC.</p>
+        </div>
+        <button id="closeMasterTaskModalBtn" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-lg transition">&times;</button>
+      </div>
+
+      <form id="masterTaskForm" class="space-y-4">
+        <input type="hidden" id="mtTargetProjectId" value="">
+        <input type="hidden" id="editMasterTaskId" value="">
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Proyek Induk</label>
+          <div id="mtProjectDisplay" class="px-3.5 py-2 text-xs bg-slate-950/80 border border-slate-800 rounded-xl text-slate-300 font-bold"></div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Judul Master Task <span class="text-rose-500">*</span></label>
+          <input id="mtTitle" type="text" required placeholder="Contoh: Integrasi API Payment Gateway" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Jenis Pekerjaan <span class="text-rose-500">*</span></label>
+            <select id="mtType" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-indigo-500">
+              <option value="PM">🟦 PM (Koordinasi, MoM, Ceremony)</option>
+              <option value="Teknis" selected>🟩 Teknis (Coding, QA, Database)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Bobot Tugas <span class="text-rose-500">*</span></label>
+            <select id="mtWeight" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-indigo-500">
+              <option value="Ringan">🟢 Ringan (0.5 hari kerja)</option>
+              <option value="Sedang" selected>🟡 Sedang (1.5 hari kerja)</option>
+              <option value="Berat">🔴 Berat (3 hari kerja)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Target Deadline Task <span class="text-rose-500">*</span></label>
+            <input id="mtDeadline" type="date" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-indigo-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">PIC / Anggota Tim Terkait</label>
+            <select id="mtPicSelect" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-indigo-500">
+              <!-- Dynamically populated from teamMembers -->
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Kategori</label>
+          <input id="mtCategory" type="text" placeholder="Contoh: Backend, Frontend, Ceremony" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-800">
+          <button type="button" id="cancelMasterTaskModalBtn" class="px-4 py-2.5 text-xs font-semibold rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+            Batal
+          </button>
+          <button type="submit" class="px-5 py-2.5 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30 transition">
+            Simpan Master Task
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 4: ADD / EDIT TEAM MEMBER ==================== -->
+  <div id="teamMemberModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700/90 rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl space-y-6 text-slate-100 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h3 id="teamMemberModalTitle" class="text-lg font-bold text-white">Tambah Anggota Tim</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Daftarkan rekan tim dan atur batas kapasitas task mingguan.</p>
+        </div>
+        <button id="closeTeamMemberModalBtn" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-lg transition">&times;</button>
+      </div>
+
+      <form id="teamMemberForm" class="space-y-4">
+        <input type="hidden" id="editTeamMemberId" value="">
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nama Lengkap <span class="text-rose-500">*</span></label>
+          <input id="tmName" type="text" required placeholder="Contoh: Budi Pratama" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Peran / Role Keahlian <span class="text-rose-500">*</span></label>
+          <input id="tmRole" type="text" required placeholder="Contoh: Frontend Developer, QA Engineer, UI/UX" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Kapasitas Maksimal (Task/Minggu)</label>
+            <input id="tmMaxTasks" type="number" min="1" max="15" value="4" required class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-purple-500">
+            <span class="text-[10px] text-slate-400 mt-0.5 block">Ideal: 4-5 task/minggu</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Warna Avatar</label>
+            <select id="tmColor" class="w-full px-3.5 py-2.5 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-purple-500">
+              <option value="blue" selected>🟦 Biru</option>
+              <option value="cyan">🩵 Cyan / Teal</option>
+              <option value="purple">🟪 Ungu</option>
+              <option value="emerald">🟩 Hijau</option>
+              <option value="amber">🟨 Kuning / Amber</option>
+              <option value="rose">🟥 Merah</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-800">
+          <button type="button" id="cancelTeamMemberModalBtn" class="px-4 py-2.5 text-xs font-semibold rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+            Batal
+          </button>
+          <button type="submit" class="px-5 py-2.5 text-xs font-bold rounded-xl bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/30 transition">
+            Simpan Anggota Tim
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 5: BACKUP & RESTORE DATA ==================== -->
   <div id="backupModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
     <div class="bg-slate-900 border border-slate-700/90 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5 text-slate-100">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -325,11 +733,10 @@
       </div>
 
       <div class="space-y-4 text-xs">
-        <!-- Export options -->
         <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2.5">
-          <h4 class="font-bold text-white">1. Unduh Cadangan (Backup)</h4>
-          <p class="text-slate-400 text-[11px]">Simpan file cadangan ke komputer agar dapat dipulihkan kapan saja.</p>
-          <div class="flex gap-2">
+          <h4 class="font-bold text-white">1. Unduh Cadangan Lengkap (Tim, Proyek, & Jadwal)</h4>
+          <p class="text-slate-400 text-[11px]">Menyimpan seluruh data anggota tim, master task proyek, dan jadwal mingguan ke file JSON V4.</p>
+          <div class="flex flex-wrap gap-2">
             <button id="downloadJsonBtn" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition flex items-center gap-1.5">
               <span>⬇️</span> Download File JSON
             </button>
@@ -339,14 +746,12 @@
           </div>
         </div>
 
-        <!-- Import options -->
         <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2.5">
           <h4 class="font-bold text-white">2. Pulihkan Data (Restore)</h4>
           <p class="text-slate-400 text-[11px]">Pilih file JSON cadangan yang pernah Anda unduh sebelumnya.</p>
           <input type="file" id="importJsonInput" accept=".json" class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700 cursor-pointer">
         </div>
 
-        <!-- Reset to default -->
         <div class="flex justify-between items-center pt-2">
           <button id="resetDefaultBtn" class="text-rose-400 hover:text-rose-300 font-medium text-xs transition">
             ⚠️ Reset ke Data Template Awal

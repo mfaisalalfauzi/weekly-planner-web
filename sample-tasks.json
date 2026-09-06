@@ -1,142 +1,99 @@
-[
-  {
-    "id": 1,
-    "day": "Senin",
-    "slot": "Pagi: 09-12",
-    "project": "App Mobile v2.1",
-    "type": "PM",
-    "task": "Fasilitasi Sprint Planning & estimasi story point",
-    "category": "Ceremony",
-    "pic": "Tech Lead, PO",
-    "priority": "P1 (High)",
-    "blocker": "Menunggu PRD final dari PO",
-    "deliverable": "Sprint Backlog terkunci di Jira",
-    "status": "Done"
-  },
-  {
-    "id": 2,
-    "day": "Senin",
-    "slot": "Siang: 13-17",
-    "project": "Web Portal",
-    "type": "Teknis",
-    "task": "Slicing UI Dashboard & integrasi state API",
-    "category": "Frontend",
-    "pic": "UI/UX Designer",
-    "priority": "P2 (Med)",
-    "blocker": "Figma icon belum fix",
-    "deliverable": "Commit code & buat draft PR",
-    "status": "In Progress"
-  },
-  {
-    "id": 3,
-    "day": "Selasa",
-    "slot": "Pagi: 09-12",
-    "project": "App Mobile v2.1",
-    "type": "PM",
-    "task": "Eskalasi issue kredensial API payment gateway",
-    "category": "Blocker",
-    "pic": "Vendor, DevOps",
-    "priority": "P1 (High)",
-    "blocker": "Tiket vendor #402 belum dibalas",
-    "deliverable": "API Key aktif di staging",
-    "status": "Done"
-  },
-  {
-    "id": 4,
-    "day": "Selasa",
-    "slot": "Siang: 13-17",
-    "project": "Backend Core",
-    "type": "Teknis",
-    "task": "Unit test & fix bug token auth expired",
-    "category": "Backend",
-    "pic": "Tech Lead",
-    "priority": "P1 (High)",
-    "blocker": "-",
-    "deliverable": "PR lulus CI/CD & merge ke dev",
-    "status": "Done"
-  },
-  {
-    "id": 5,
-    "day": "Rabu",
-    "slot": "Pagi: 09-12",
-    "project": "CRM Klien X",
-    "type": "PM",
-    "task": "Backlog Grooming & estimasi timeline change request",
-    "category": "Scoping",
-    "pic": "Business Analyst",
-    "priority": "P2 (Med)",
-    "blocker": "-",
-    "deliverable": "Impact Analysis & Timeline Doc",
-    "status": "In Progress"
-  },
-  {
-    "id": 6,
-    "day": "Rabu",
-    "slot": "Siang: 13-17",
-    "project": "Web Portal",
-    "type": "Teknis",
-    "task": "Setup cron job & optimasi query database report",
-    "category": "Database",
-    "pic": "Backend Team",
-    "priority": "P2 (Med)",
-    "blocker": "Akses read-replica belum ada",
-    "deliverable": "Script SQL & cron berjalan normal",
-    "status": "To Do"
-  },
-  {
-    "id": 7,
-    "day": "Kamis",
-    "slot": "Pagi: 09-12",
-    "project": "App Mobile v2.1",
-    "type": "PM",
-    "task": "Bug triage & koordinasi scope rilis UAT",
-    "category": "Delivery",
-    "pic": "QA Lead, PO",
-    "priority": "P1 (High)",
-    "blocker": "2 major bug di checkout",
-    "deliverable": "Release Candidate siap UAT",
-    "status": "To Do"
-  },
-  {
-    "id": 8,
-    "day": "Kamis",
-    "slot": "Siang: 13-17",
-    "project": "App Mobile v2.1",
-    "type": "Teknis",
-    "task": "Investigasi crash log Sentry modul Checkout",
-    "category": "Debugging",
-    "pic": "Mobile Dev",
-    "priority": "P1 (High)",
-    "blocker": "Perlu repro di Android 14",
-    "deliverable": "Root cause & bugfix patch",
-    "status": "To Do"
-  },
-  {
-    "id": 9,
-    "day": "Jumat",
-    "slot": "Pagi: 09-12",
-    "project": "All Projects",
-    "type": "PM",
-    "task": "Susun & kirim Weekly Status Report ke Lead PM",
-    "category": "Reporting",
-    "pic": "Lead PM, Klien",
-    "priority": "P1 (High)",
-    "blocker": "Butuh rekap burn-down",
-    "deliverable": "Email / PDF Status Report",
-    "status": "To Do"
-  },
-  {
-    "id": 10,
-    "day": "Jumat",
-    "slot": "Siang: 13-17",
-    "project": "Shared Lib",
-    "type": "Teknis",
-    "task": "Code review PR tim dan update technical docs",
-    "category": "Code Review",
-    "pic": "Peer Devs",
-    "priority": "P3 (Low)",
-    "blocker": "-",
-    "deliverable": "Approval PR & README update",
-    "status": "To Do"
-  }
-]
+{
+  "version": 4,
+  "exportedAt": "2026-09-07T05:20:00.000Z",
+  "teamMembers": [
+    { "id": "tm-1", "name": "Anda (IT PM)", "role": "PM & Tech Lead", "maxTasks": 5, "color": "blue" },
+    { "id": "tm-2", "name": "Budi Pratama", "role": "Frontend Developer", "maxTasks": 4, "color": "cyan" },
+    { "id": "tm-3", "name": "Andi Saputra", "role": "Backend Developer", "maxTasks": 4, "color": "purple" },
+    { "id": "tm-4", "name": "Sari Wulandari", "role": "QA / Tester", "maxTasks": 5, "color": "emerald" },
+    { "id": "tm-5", "name": "Dimas Aditya", "role": "UI/UX Designer", "maxTasks": 4, "color": "amber" }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "name": "App Mobile v2.1",
+      "code": "MOB",
+      "client": "Internal / Retail",
+      "status": "Active",
+      "targetDate": "2026-10-31",
+      "color": "blue",
+      "description": "Pengembangan fitur checkout dan integrasi payment gateway",
+      "masterTasks": [
+        { "id": "mt-1", "title": "Fasilitasi Sprint Planning & estimasi story point", "type": "PM", "weight": "Ringan", "deadline": "2026-09-10", "category": "Ceremony", "pic": "Anda (IT PM)" },
+        { "id": "mt-2", "title": "Eskalasi issue kredensial API payment gateway", "type": "PM", "weight": "Sedang", "deadline": "2026-09-15", "category": "Blocker", "pic": "Anda (IT PM)" },
+        { "id": "mt-3", "title": "Slicing UI Checkout & integrasi state API", "type": "Teknis", "weight": "Sedang", "deadline": "2026-09-20", "category": "Frontend", "pic": "Budi Pratama" },
+        { "id": "mt-4", "title": "Setup unit test & backend endpoint auth token", "type": "Teknis", "weight": "Berat", "deadline": "2026-09-22", "category": "Backend", "pic": "Andi Saputra" },
+        { "id": "mt-5", "title": "Bug triage & koordinasi scope rilis UAT", "type": "PM", "weight": "Sedang", "deadline": "2026-09-25", "category": "Delivery", "pic": "Sari Wulandari" },
+        { "id": "mt-6", "title": "Investigasi crash log Sentry modul Checkout", "type": "Teknis", "weight": "Berat", "deadline": "2026-09-28", "category": "Debugging", "pic": "Budi Pratama" }
+      ]
+    },
+    {
+      "id": "proj-2",
+      "name": "Web Portal Internal",
+      "code": "WEB",
+      "client": "Operations",
+      "status": "Active",
+      "targetDate": "2026-09-30",
+      "color": "emerald",
+      "description": "Dashboard analitik & sistem report performa divisi",
+      "masterTasks": [
+        { "id": "mt-21", "title": "Slicing UI Dashboard & integrasi state API", "type": "Teknis", "weight": "Sedang", "deadline": "2026-09-12", "category": "Frontend", "pic": "Dimas Aditya" },
+        { "id": "mt-22", "title": "Setup cron job & optimasi query database report", "type": "Teknis", "weight": "Sedang", "deadline": "2026-09-16", "category": "Database", "pic": "Andi Saputra" },
+        { "id": "mt-23", "title": "Review performa load time dashboard dengan tim infra", "type": "PM", "weight": "Ringan", "deadline": "2026-09-25", "category": "Review", "pic": "Anda (IT PM)" }
+      ]
+    },
+    {
+      "id": "proj-3",
+      "name": "Backend Core",
+      "code": "API",
+      "client": "Architecture Team",
+      "status": "Active",
+      "targetDate": "2026-11-15",
+      "color": "purple",
+      "description": "Refactoring microservices & optimasi security auth token",
+      "masterTasks": [
+        { "id": "mt-31", "title": "Unit test & fix bug token auth expired", "type": "Teknis", "weight": "Berat", "deadline": "2026-09-15", "category": "Backend", "pic": "Andi Saputra" },
+        { "id": "mt-32", "title": "Audit security vulnerability dependencies", "type": "Teknis", "weight": "Sedang", "deadline": "2026-10-05", "category": "Security", "pic": "Andi Saputra" }
+      ]
+    },
+    {
+      "id": "proj-4",
+      "name": "CRM Klien X",
+      "code": "CRM",
+      "client": "PT Mitra Sejahtera",
+      "status": "Active",
+      "targetDate": "2026-12-20",
+      "color": "amber",
+      "description": "Implementasi modul customer pipeline & ticketing",
+      "masterTasks": [
+        { "id": "mt-41", "title": "Backlog Grooming & estimasi timeline change request", "type": "PM", "weight": "Sedang", "deadline": "2026-09-16", "category": "Scoping", "pic": "Anda (IT PM)" },
+        { "id": "mt-42", "title": "Koneksi database sinkronisasi data pelanggan", "type": "Teknis", "weight": "Berat", "deadline": "2026-10-10", "category": "Backend", "pic": "Andi Saputra" }
+      ]
+    },
+    {
+      "id": "proj-5",
+      "name": "Shared Library",
+      "code": "LIB",
+      "client": "Dev Team",
+      "status": "Active",
+      "targetDate": "2026-09-25",
+      "color": "cyan",
+      "description": "Standardisasi reusable components dan automasi CI/CD",
+      "masterTasks": [
+        { "id": "mt-51", "title": "Code review PR tim dan update technical docs", "type": "Teknis", "weight": "Ringan", "deadline": "2026-09-18", "category": "Code Review", "pic": "Budi Pratama" }
+      ]
+    }
+  ],
+  "tasks": [
+    { "id": 1, "projectId": "proj-1", "masterTaskId": "mt-1", "month": "2026-09", "week": "Minggu 2", "day": "Senin", "slot": "Pagi: 09-12", "type": "PM", "task": "Fasilitasi Sprint Planning & estimasi story point", "category": "Ceremony", "pic": "Anda (IT PM)", "priority": "P1 (High)", "blocker": "Menunggu PRD final dari PO", "deliverable": "Sprint Backlog terkunci di Jira", "status": "Done" },
+    { "id": 2, "projectId": "proj-2", "masterTaskId": "mt-21", "month": "2026-09", "week": "Minggu 2", "day": "Senin", "slot": "Siang: 13-17", "type": "Teknis", "task": "Slicing UI Dashboard & integrasi state API", "category": "Frontend", "pic": "Dimas Aditya", "priority": "P2 (Med)", "blocker": "Figma icon belum fix", "deliverable": "Commit code & buat draft PR", "status": "In Progress" },
+    { "id": 3, "projectId": "proj-1", "masterTaskId": "mt-2", "month": "2026-09", "week": "Minggu 2", "day": "Selasa", "slot": "Pagi: 09-12", "type": "PM", "task": "Eskalasi issue kredensial API payment gateway", "category": "Blocker", "pic": "Anda (IT PM)", "priority": "P1 (High)", "blocker": "Tiket vendor #402 belum dibalas", "deliverable": "API Key aktif di staging", "status": "Done" },
+    { "id": 4, "projectId": "proj-3", "masterTaskId": "mt-31", "month": "2026-09", "week": "Minggu 2", "day": "Selasa", "slot": "Siang: 13-17", "type": "Teknis", "task": "Unit test & fix bug token auth expired", "category": "Backend", "pic": "Andi Saputra", "priority": "P1 (High)", "blocker": "-", "deliverable": "PR lulus CI/CD & merge ke dev", "status": "Done" },
+    { "id": 5, "projectId": "proj-4", "masterTaskId": "mt-41", "month": "2026-09", "week": "Minggu 2", "day": "Rabu", "slot": "Pagi: 09-12", "type": "PM", "task": "Backlog Grooming & estimasi timeline change request", "category": "Scoping", "pic": "Anda (IT PM)", "priority": "P2 (Med)", "blocker": "-", "deliverable": "Impact Analysis & Timeline Doc", "status": "In Progress" },
+    { "id": 6, "projectId": "proj-2", "masterTaskId": "mt-22", "month": "2026-09", "week": "Minggu 2", "day": "Rabu", "slot": "Siang: 13-17", "type": "Teknis", "task": "Setup cron job & optimasi query database report", "category": "Database", "pic": "Andi Saputra", "priority": "P2 (Med)", "blocker": "Akses read-replica belum ada", "deliverable": "Script SQL & cron berjalan normal", "status": "To Do" },
+    { "id": 7, "projectId": "proj-1", "masterTaskId": "mt-5", "month": "2026-09", "week": "Minggu 2", "day": "Kamis", "slot": "Pagi: 09-12", "type": "PM", "task": "Bug triage & koordinasi scope rilis UAT", "category": "Delivery", "pic": "Sari Wulandari", "priority": "P1 (High)", "blocker": "2 major bug di checkout", "deliverable": "Release Candidate siap UAT", "status": "To Do" },
+    { "id": 8, "projectId": "proj-1", "masterTaskId": "mt-6", "month": "2026-09", "week": "Minggu 2", "day": "Kamis", "slot": "Siang: 13-17", "type": "Teknis", "task": "Investigasi crash log Sentry modul Checkout", "category": "Debugging", "pic": "Budi Pratama", "priority": "P1 (High)", "blocker": "Perlu repro di Android 14", "deliverable": "Root cause & bugfix patch", "status": "To Do" },
+    { "id": 9, "projectId": "proj-1", "masterTaskId": "mt-1", "month": "2026-09", "week": "Minggu 2", "day": "Jumat", "slot": "Pagi: 09-12", "type": "PM", "task": "Susun & kirim Weekly Status Report ke Lead PM", "category": "Reporting", "pic": "Anda (IT PM)", "priority": "P1 (High)", "blocker": "Butuh rekap burn-down", "deliverable": "Email / PDF Status Report", "status": "To Do" },
+    { "id": 10, "projectId": "proj-5", "masterTaskId": "mt-51", "month": "2026-09", "week": "Minggu 2", "day": "Jumat", "slot": "Siang: 13-17", "type": "Teknis", "task": "Code review PR tim dan update technical docs", "category": "Code Review", "pic": "Budi Pratama", "priority": "P3 (Low)", "blocker": "-", "deliverable": "Approval PR & README update", "status": "To Do" }
+  ]
+}

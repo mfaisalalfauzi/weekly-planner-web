@@ -1,56 +1,58 @@
-# 🚀 Weekly Task & Capacity Planner - Junior IT PM
+# 🚀 IT PM Enterprise Workspace: Projects, Deadlines & Team Workload
 
-Aplikasi web mandiri (*standalone web application*) untuk memanajemen rencana kerja mingguan, menghitung rasio kapasitas peran ganda (*PM vs Teknis*), menerapkan *time-blocking*, serta siap di-*deploy* langsung ke **Vercel**.
+Aplikasi web mandiri (*standalone web application*) untuk memanajemen portofolio proyek, master task backlog, peramalan kesehatan deadline (*Project Deadline Health Forecasting*), beban kerja anggota tim (*Team Workload*), alokasi tugas mingguan peran ganda (*PM vs Teknis*), serta siap di-*deploy* langsung ke **Vercel**.
 
 ---
 
-## 🌟 Fitur Utama
+## 🌟 3 Pilar Fitur Utama
 
-1. **Input & Edit Tugas Langsung di Web (Full Native CRUD):**
-   - Modal formulir interaktif: tambah tugas baru, edit detail tugas, atau hapus tugas dengan mudah.
-   - Field lengkap: Hari, Slot Waktu (*Time-Block*), Proyek/Sprint, Jenis Pekerjaan (`PM` / `Teknis`), Kategori, Prioritas (`P1-P3`), Blocker & Dependency, Target Deliverable, dan Status.
-2. **Dashboard Kapasitas & Metrik Real-Time:**
-   - **Rasio Beban Kerja (PM vs Teknis):** Otomatis terkalkulasi dengan visual progress bar.
-   - **Penyelesaian Tugas:** Menghitung persentase task yang telah *Done*.
-   - **Active Blockers Counter:** Menyorot tugas yang terhambat kendala teknis atau pihak ketiga.
-   - **Evaluasi Kapasitas:** Notifikasi rekomendasi jika beban koordinasi PM terlalu mendominasi (>70%).
-3. **Penyimpanan Lokal & Fitur Backup/Restore:**
-   - Data otomatis tersimpan di browser Anda (*LocalStorage*).
-   - Fitur **Download Backup JSON** & **Restore JSON** untuk memindahkan data antar perangkat.
-   - Fitur **Download CSV (Excel)** dan **Salin Tabel Markdown** untuk laporan ke Slack, Jira, atau email mingguan.
+### 1. 📋 Rencana Tugas Mingguan (*Weekly Sprint Planner*)
+- **Dual-Role Capacity Visualizer:** Mengukur rasio alokasi waktu **PM (Koordinasi & Ceremony)** vs **Teknis (Deep Work & Dev)** secara real-time.
+- **Smart Auto-Schedule Minggu Ini:** Otomatis menarik master task dari backlog proyek aktif yang belum terjadwal ke dalam slot kerja mingguan sesuai bobot tugas dan prioritas tanpa perlu input dua kali.
+- **Unified PIC Dropdown & Filtering:** Terhubung langsung dengan daftar anggota tim terdaftar. Anda dapat memfilter tabel tugas berdasarkan PIC tertentu.
+- **Bulk Operations:** Fitur **Hapus Massal (*Bulk Delete*)** dan **Tandai Selesai Massal (*Bulk Mark Done*)** dengan sekali klik.
+- **Time-Blocking:** Alokasi pagi (09:00 - 12:00) untuk PM/Sync dan siang (13:30 - 17:00) untuk Teknis.
+
+### 2. 📁 Portofolio Proyek & Master Tasks (*Deadline Health Indicator*)
+- **Daftar Master Tasks per Proyek:** Setiap proyek memiliki daftar tugas induk lengkap dengan jenis (PM/Teknis), bobot tugas (*Ringan* = 0.5 hari kerja, *Sedang* = 1.5 hari kerja, *Berat* = 3 hari kerja), target deadline task, dan PIC.
+- **Formula Transparan Prediksi Kesehatan Deadline (*Deadline Health Forecasting*):**
+  $$\text{Sisa Hari Kerja (Mandays)} = \sum \text{Bobot Master Task Belum Selesai}$$
+  $$\text{Sisa Hari Kalender} = \text{Target Deadline} - \text{Hari Ini}$$
+  $$\text{Buffer Margin} = \text{Sisa Hari Kalender} - \text{Sisa Hari Kerja}$$
+  - `🟢 ON-TRACK` (Buffer $> 5$ hari): Waktu kalender aman dan mencukupi untuk menyelesaikan sisa beban kerja.
+  - `🟡 AT-RISK` (Buffer $0 \dots 5$ hari): Margin waktu sangat tipis, perlu mitigasi blocker segera.
+  - `🔴 OVERDUE / DEFISIT` (Buffer $< 0$ atau tanggal lewat): Sisa hari kalender tidak cukup untuk menyelesaikan sisa hari kerja; eskalasi atau penambahan tim diperlukan.
+- **Penyelesaian Master Task:** Progress bar visual menampilkan persentase task yang telah *Done* terhadap total master task.
+
+### 3. 👥 Beban Kerja Tim (*Team Workload Dashboard*)
+- **Manajemen Kapasitas Tim:** Daftarkan rekan tim lintas divisi (Developer, QA, UI/UX, BA) dan tetapkan batas kapasitas mingguan (misal: 4-5 task/minggu).
+- **Pengukur Beban Visual (*Capacity Meter*):**
+  - 🟢 **Optimal:** 1 s/d (Maks - 1) task mingguan.
+  - 🟡 **Penuh:** Tepat mencapai batas kapasitas (disarankan tidak menambah task baru).
+  - 🔴 **Overload:** Melebihi kapasitas maksimal mingguan (indikator peringatan otomatis).
+- **Pelacakan Blocker Aktif per PIC:** Menyoroti anggota tim yang memiliki pekerjaan tertahan kendala teknis atau dependensi pihak ketiga.
+- **Quick Filter:** Klik "🔍 Filter di Jadwal" pada kartu anggota tim untuk langsung membuka tabel tugas mingguan milik PIC tersebut.
 
 ---
 
 ## 💻 Cara Menjalankan di Komputer Lokal
 
-Anda tidak perlu menginstal Node.js atau server apa pun:
+Aplikasi ini dibuat dengan teknologi web modern murni (*Pure HTML5, Tailwind CSS, ES6 JavaScript*), **tanpa perlu menginstal Node.js, npm, atau web server**:
 1. Buka folder proyek ini di File Explorer:
    `C:\Users\Administrator\.gemini\antigravity\scratch\weekly-planner-web`
-2. **Klik ganda (double click) file `index.html`** untuk langsung membukanya di browser (Google Chrome / Edge).
+2. **Klik ganda file `index.html`** untuk langsung membukanya di Google Chrome, Edge, atau browser lainnya.
 
 ---
 
 ## ☁️ Cara Deploy ke Vercel
 
-Ada dua cara mudah untuk mengunggah aplikasi ini ke Vercel:
-
-### Cara A: Upload via GitHub (Direkomendasikan)
-1. Buat repositori baru di [GitHub](https://github.com/new) (misal: `weekly-planner-it-pm`).
-2. Unggah seluruh file di folder ini (`index.html`, `app.js`, `styles.css`, `vercel.json`) ke repositori GitHub tersebut.
-3. Buka dashboard [Vercel](https://vercel.com/) dan login menggunakan akun GitHub Anda.
-4. Klik **Add New...** &rarr; **Project**.
-5. Pilih repositori GitHub `weekly-planner-it-pm` yang baru saja Anda buat.
-6. Pada bagian *Framework Preset*, biarkan default (**Other**).
-7. Klik tombol **Deploy**!
-8. Dalam hitungan detik, aplikasi Anda sudah live dengan URL publik, contoh: `https://weekly-planner-it-pm.vercel.app`.
-
-### Cara B: Menggunakan Vercel CLI (Jika Node.js terpasang di komputer)
-1. Buka terminal di folder ini:
-   ```bash
-   npx vercel
-   ```
-2. Ikuti instruksi login di layar dan pilih opsi default.
-3. Aplikasi akan langsung ter-deploy ke Vercel.
+### Cara A: Unggah ke GitHub (Paling Praktis)
+1. Buat repositori baru di [GitHub](https://github.com/new) (misal: `it-pm-workspace`).
+2. Unggah seluruh file di folder ini (`index.html`, `app.js`, `styles.css`, `sample-tasks.json`, `vercel.json`) ke repositori tersebut.
+3. Buka [Vercel Dashboard](https://vercel.com/) dan login dengan GitHub.
+4. Klik **Add New...** &rarr; **Project**, lalu pilih repositori `it-pm-workspace`.
+5. Biarkan *Framework Preset* sebagai **Other**, lalu klik **Deploy**!
+6. Aplikasi Anda langsung online dengan URL publik gratis (misal: `https://it-pm-workspace.vercel.app`).
 
 ---
 
@@ -58,10 +60,11 @@ Ada dua cara mudah untuk mengunggah aplikasi ini ke Vercel:
 
 ```
 weekly-planner-web/
-├── index.html          # Halaman utama, antarmuka dashboard, & modal formulir
-├── app.js              # State management, kalkulasi metrik, & logika CRUD
-├── styles.css          # Styling kustom, scrollbar halus, & print layout
-├── sample-tasks.json   # Cadangan data tugas awal
-├── vercel.json         # Konfigurasi deployment & clean URL Vercel
-└── README.md           # Panduan penggunaan & deployment
+├── index.html          # Tata letak 3 tab (Tasks, Projects, Team Workload) & 5 modal interaktif
+├── app.js              # State management, perhitungan kesehatan deadline, kapasitas tim, & auto-scheduler
+├── styles.css          # Styling custom gauge, badge warna tim & proyek, print report
+├── sample-tasks.json   # Template data awal V4 (anggota tim, master tasks proyek, & jadwal mingguan)
+├── vercel.json         # Konfigurasi hosting statis & security header Vercel
+└── README.md           # Dokumentasi lengkap & panduan penggunaan
 ```
+
