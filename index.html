@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IT PM Workspace: Projects, Capacity & Team Workload</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,6 +46,9 @@
           </button>
           <button id="openBackupModalBtn" class="flex items-center gap-1.5 px-3.5 py-2.5 text-xs font-medium rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/80 transition">
             <span>💾</span> Cadangan
+          </button>
+          <button id="openSupabaseModalBtn" class="flex items-center gap-1.5 px-3.5 py-2.5 text-xs font-medium rounded-2xl bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-700/60 transition shadow-sm">
+            <span>⚡</span> Supabase Cloud <span id="supabaseStatusBadge" class="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block" title="Status: Disconnected"></span>
           </button>
         </div>
       </div>
@@ -842,6 +846,75 @@
         <div class="flex justify-between items-center pt-2">
           <button id="resetDefaultBtn" class="text-rose-400 hover:text-rose-300 font-medium text-xs transition">
             ⚠️ Reset ke Data Template Awal
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 6: SUPABASE CLOUD CONFIGURATION ==================== -->
+  <div id="supabaseModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-slate-900 border border-cyan-800/80 rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-5 text-slate-100 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>⚡</span> Konfigurasi Supabase Cloud Database
+        </h3>
+        <button id="closeSupabaseModalBtn" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-lg transition">&times;</button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white flex items-center gap-2">
+              <span>1. Kredensial Supabase Project</span>
+            </h4>
+            <span id="supabaseStatusText" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400">
+              Offline (Local Only)
+            </span>
+          </div>
+
+          <div>
+            <label class="block text-slate-400 mb-1 font-medium">Supabase Project URL:</label>
+            <input type="text" id="supabaseUrlInput" placeholder="https://xyzcompany.supabase.co" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
+          </div>
+
+          <div>
+            <label class="block text-slate-400 mb-1 font-medium">Supabase Anon Key (Public Key):</label>
+            <input type="password" id="supabaseKeyInput" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
+          </div>
+
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button id="saveSupabaseConfigBtn" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition shadow-lg shadow-cyan-600/20">
+              ⚡ Simpan & Hubungkan
+            </button>
+            <button id="disconnectSupabaseBtn" class="px-3.5 py-2 bg-rose-950/80 hover:bg-rose-900 text-rose-300 font-medium rounded-xl border border-rose-800/60 transition hidden">
+              Putuskan Koneksi
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2.5">
+          <h4 class="font-bold text-white">2. Sinkronisasi Data Manual</h4>
+          <p class="text-slate-400 text-[11px]">Upload seluruh data lokal saat ini ke cloud Supabase atau tarik data dari Supabase ke browser ini.</p>
+          <div class="flex flex-wrap gap-2">
+            <button id="syncUploadBtn" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition flex items-center gap-1.5 disabled:opacity-50" disabled>
+              <span>☁️⬆️</span> Upload Data Lokal ke Cloud
+            </button>
+            <button id="syncDownloadBtn" class="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl transition flex items-center gap-1.5 disabled:opacity-50" disabled>
+              <span>☁️⬇️</span> Tarik Data Cloud ke Lokal
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white">3. Script SQL Table Schema</h4>
+            <a href="supabase_schema.sql" target="_blank" download class="text-[11px] text-cyan-400 hover:underline">Download file .sql</a>
+          </div>
+          <p class="text-slate-400 text-[11px]">Salin kode SQL berikut lalu jalankan di **Supabase Dashboard > SQL Editor** proyek Anda:</p>
+          <textarea id="sqlSchemaTextarea" readonly class="w-full h-32 p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-[10px] font-mono text-cyan-300 focus:outline-none select-all"></textarea>
+          <button id="copySqlBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold rounded-lg transition">
+            📋 Salin Kode SQL
           </button>
         </div>
       </div>

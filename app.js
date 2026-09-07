@@ -226,17 +226,265 @@ function showToast(message, type = 'info') {
   }, 3200);
 }
 
-// Storage Helpers
+// Storage Helpers & Supabase Cloud Integration
+let supabaseClient = null;
+
+function initSupabaseClient() {
+  const url = localStorage.getItem('supabase_url') || '';
+  const key = localStorage.getItem('supabase_key') || '';
+  const badge = document.getElementById('supabaseStatusBadge');
+  const text = document.getElementById('supabaseStatusText');
+  const disconnectBtn = document.getElementById('disconnectSupabaseBtn');
+  const syncUploadBtn = document.getElementById('syncUploadBtn');
+  const syncDownloadBtn = document.getElementById('syncDownloadBtn');
+
+  const urlInput = document.getElementById('supabaseUrlInput');
+  const keyInput = document.getElementById('supabaseKeyInput');
+  if (urlInput) urlInput.value = url;
+  if (keyInput) keyInput.value = key;
+
+  if (url && key && window.supabase && typeof window.supabase.createClient === 'function') {
+    try {
+      supabaseClient = window.supabase.createClient(url, key);
+      if (badge) {
+        badge.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block shadow-sm shadow-emerald-400/50';
+        badge.title = 'Status: Terhubung ke Supabase Cloud';
+      }
+      if (text) {
+        text.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-800';
+        text.textContent = 'Terhubung (Cloud Aktif)';
+      }
+      if (disconnectBtn) disconnectBtn.classList.remove('hidden');
+      if (syncUploadBtn) syncUploadBtn.disabled = false;
+      if (syncDownloadBtn) syncDownloadBtn.disabled = false;
+    } catch (err) {
+      console.error('Supabase init error:', err);
+      supabaseClient = null;
+      if (badge) {
+        badge.className = 'w-2.5 h-2.5 rounded-full bg-rose-500 inline-block';
+        badge.title = 'Status: Gagal Terhubung';
+      }
+      if (text) {
+        text.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-950 text-rose-300 border border-rose-800';
+        text.textContent = 'Gagal Terhubung';
+      }
+    }
+  } else {
+    supabaseClient = null;
+    if (badge) {
+      badge.className = 'w-2.5 h-2.5 rounded-full bg-slate-500 inline-block';
+      badge.title = 'Status: Mode Lokal (Offline)';
+    }
+    if (text) {
+      text.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400';
+      text.textContent = 'Offline (Mode Lokal)';
+    }
+    if (disconnectBtn) disconnectBtn.classList.add('hidden');
+    if (syncUploadBtn) syncUploadBtn.disabled = true;
+    if (syncDownloadBtn) syncDownloadBtn.disabled = true;
+  }
+}
+
+// Data Mappers (CamelCase <-> Snake_case DB Schema)
+function taskToSupabase(t) {
+  return {
+    id: t.id,
+    project_id: t.projectId || null,
+    master_task_id: t.masterTaskId || null,
+    month: t.month || '2026-09',
+    week: t.week || 'Minggu 1',
+    day: t.day || 'Senin',
+    slot: t.slot || 'Pagi: 09-12',
+    type: t.type || 'PM',
+    task: t.task || '',
+    category: t.category || '',
+    pic: t.pic || '',
+    priority: t.priority || 'P2 (Med)',
+    blocker: t.blocker || '-',
+    deliverable: t.deliverable || '-',
+    status: t.status || 'To Do',
+    updated_at: new Date().toISOString()
+  };
+}
+
+function taskFromSupabase(t) {
+  return {
+    id: typeof t.id === 'string' ? parseInt(t.id, 10) : t.id,
+    projectId: t.project_id,
+    masterTaskId: t.master_task_id || '',
+    month: t.month,
+    week: t.week,
+    day: t.day,
+    slot: t.slot,
+    type: t.type,
+    task: t.task,
+    category: t.category,
+    pic: t.pic,
+    priority: t.priority,
+    blocker: t.blocker,
+    deliverable: t.deliverable,
+    status: t.status
+  };
+}
+
+function projectToSupabase(p) {
+  return {
+    id: p.id,
+    name: p.name,
+    code: p.code || 'PRJ',
+    client: p.client || '-',
+    status: p.status || 'Active',
+    target_date: p.targetDate || '',
+    color: p.color || 'blue',
+    description: p.description || '',
+    master_tasks: p.masterTasks || [],
+    updated_at: new Date().toISOString()
+  };
+}
+
+function projectFromSupabase(p) {
+  return {
+    id: p.id,
+    name: p.name,
+    code: p.code,
+    client: p.client,
+    status: p.status,
+    targetDate: p.target_date,
+    color: p.color,
+    description: p.description,
+    masterTasks: p.master_tasks || []
+  };
+}
+
+function teamToSupabase(tm) {
+  return {
+    id: tm.id,
+    name: tm.name,
+    role: tm.role || '',
+    max_tasks: tm.maxTasks || 4,
+    color: tm.color || 'blue',
+    updated_at: new Date().toISOString()
+  };
+}
+
+function teamFromSupabase(tm) {
+  return {
+    id: tm.id,
+    name: tm.name,
+    role: tm.role,
+    maxTasks: tm.max_tasks,
+    color: tm.color
+  };
+}
+
+// Storage Helpers with LocalStorage + Supabase Auto-sync
 function saveTasks() {
   localStorage.setItem('it_pm_native_tasks', JSON.stringify(tasks));
+  if (supabaseClient && tasks.length > 0) {
+    const payload = tasks.map(taskToSupabase);
+    supabaseClient.from('tasks').upsert(payload)
+      .then(({ error }) => {
+        if (error) console.error('Supabase tasks sync error:', error);
+      });
+  }
 }
 
 function saveProjects() {
   localStorage.setItem('it_pm_projects', JSON.stringify(projects));
+  if (supabaseClient && projects.length > 0) {
+    const payload = projects.map(projectToSupabase);
+    supabaseClient.from('projects').upsert(payload)
+      .then(({ error }) => {
+        if (error) console.error('Supabase projects sync error:', error);
+      });
+  }
 }
 
 function saveTeamMembers() {
   localStorage.setItem('it_pm_team_members', JSON.stringify(teamMembers));
+  if (supabaseClient && teamMembers.length > 0) {
+    const payload = teamMembers.map(teamToSupabase);
+    supabaseClient.from('team_members').upsert(payload)
+      .then(({ error }) => {
+        if (error) console.error('Supabase team_members sync error:', error);
+      });
+  }
+}
+
+// Cloud Manual Sync Helpers
+async function syncUploadToSupabase() {
+  if (!supabaseClient) {
+    showToast('Supabase belum terhubung! Masukkan URL & Key terlebih dahulu.', 'error');
+    return;
+  }
+  showToast('Mengunggah data ke Supabase Cloud...', 'info');
+  try {
+    const teamPayload = teamMembers.map(teamToSupabase);
+    const projectPayload = projects.map(projectToSupabase);
+    const taskPayload = tasks.map(taskToSupabase);
+
+    const [r1, r2, r3] = await Promise.all([
+      supabaseClient.from('team_members').upsert(teamPayload),
+      supabaseClient.from('projects').upsert(projectPayload),
+      supabaseClient.from('tasks').upsert(taskPayload)
+    ]);
+
+    if (r1.error) throw r1.error;
+    if (r2.error) throw r2.error;
+    if (r3.error) throw r3.error;
+
+    showToast('Berhasil mengunggah seluruh data ke Supabase Cloud!', 'success');
+  } catch (err) {
+    console.error('Upload to Supabase failed:', err);
+    showToast('Gagal upload data: ' + err.message, 'error');
+  }
+}
+
+async function syncDownloadFromSupabase(quiet = false) {
+  if (!supabaseClient) {
+    if (!quiet) showToast('Supabase belum terhubung!', 'error');
+    return;
+  }
+  if (!quiet) showToast('Mengunduh data dari Supabase Cloud...', 'info');
+  try {
+    const [rTeam, rProjects, rTasks] = await Promise.all([
+      supabaseClient.from('team_members').select('*'),
+      supabaseClient.from('projects').select('*'),
+      supabaseClient.from('tasks').select('*')
+    ]);
+
+    if (rTeam.error) throw rTeam.error;
+    if (rProjects.error) throw rProjects.error;
+    if (rTasks.error) throw rTasks.error;
+
+    if (rTeam.data && rTeam.data.length > 0) {
+      teamMembers = rTeam.data.map(teamFromSupabase);
+      localStorage.setItem('it_pm_team_members', JSON.stringify(teamMembers));
+    }
+    if (rProjects.data && rProjects.data.length > 0) {
+      projects = rProjects.data.map(projectFromSupabase);
+      localStorage.setItem('it_pm_projects', JSON.stringify(projects));
+    }
+    if (rTasks.data && rTasks.data.length > 0) {
+      tasks = rTasks.data.map(taskFromSupabase);
+      localStorage.setItem('it_pm_native_tasks', JSON.stringify(tasks));
+    }
+
+    migrateDataSchema();
+    updatePicDropdowns();
+    populateProjectDropdown();
+    updateProjectFilterDropdown();
+    renderMonthSelector();
+    updateDashboardMetrics();
+    renderTaskTable();
+    renderProjectHub();
+    renderTeamHub();
+
+    if (!quiet) showToast(`Berhasil sinkronisasi! (${rProjects.data.length} proyek, ${rTasks.data.length} task)`, 'success');
+  } catch (err) {
+    console.error('Download from Supabase failed:', err);
+    if (!quiet) showToast('Gagal sinkronisasi dari Cloud: ' + err.message, 'error');
+  }
 }
 
 function getProjectById(id) {
@@ -2375,6 +2623,156 @@ document.getElementById('exportMdBtn').addEventListener('click', () => {
   });
 });
 
+// ==================== SUPABASE MODAL EVENT LISTENERS ====================
+const supabaseModal = document.getElementById('supabaseModal');
+const openSupabaseModalBtn = document.getElementById('openSupabaseModalBtn');
+const closeSupabaseModalBtn = document.getElementById('closeSupabaseModalBtn');
+const saveSupabaseConfigBtn = document.getElementById('saveSupabaseConfigBtn');
+const disconnectSupabaseBtn = document.getElementById('disconnectSupabaseBtn');
+const syncUploadBtn = document.getElementById('syncUploadBtn');
+const syncDownloadBtn = document.getElementById('syncDownloadBtn');
+const copySqlBtn = document.getElementById('copySqlBtn');
+const sqlSchemaTextarea = document.getElementById('sqlSchemaTextarea');
+
+const SQL_SCHEMA_SCRIPT = `-- ============================================================
+-- SQL SCHEMA FOR IT PM WORKSPACE SUPABASE INTEGRATION
+-- Run this script in your Supabase SQL Editor:
+-- https://supabase.com/dashboard/project/_/sql
+-- ============================================================
+
+-- 1. Table: team_members
+CREATE TABLE IF NOT EXISTS public.team_members (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    role TEXT,
+    max_tasks INT DEFAULT 4,
+    color TEXT DEFAULT 'blue',
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 2. Table: projects
+CREATE TABLE IF NOT EXISTS public.projects (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    code TEXT,
+    client TEXT,
+    status TEXT DEFAULT 'Active',
+    target_date TEXT,
+    color TEXT DEFAULT 'blue',
+    description TEXT,
+    master_tasks JSONB DEFAULT '[]'::jsonb,
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 3. Table: tasks
+CREATE TABLE IF NOT EXISTS public.tasks (
+    id BIGINT PRIMARY KEY,
+    project_id TEXT,
+    master_task_id TEXT,
+    month TEXT,
+    week TEXT,
+    day TEXT,
+    slot TEXT,
+    type TEXT,
+    task TEXT,
+    category TEXT,
+    pic TEXT,
+    priority TEXT,
+    blocker TEXT,
+    deliverable TEXT,
+    status TEXT,
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ROW LEVEL SECURITY (RLS) POLICIES
+ALTER TABLE public.team_members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.tasks ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public access team_members" ON public.team_members;
+CREATE POLICY "Public access team_members" ON public.team_members FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public access projects" ON public.projects;
+CREATE POLICY "Public access projects" ON public.projects FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public access tasks" ON public.tasks;
+CREATE POLICY "Public access tasks" ON public.tasks FOR ALL USING (true) WITH CHECK (true);`;
+
+if (sqlSchemaTextarea) {
+  sqlSchemaTextarea.value = SQL_SCHEMA_SCRIPT;
+}
+
+if (openSupabaseModalBtn) {
+  openSupabaseModalBtn.addEventListener('click', () => {
+    initSupabaseClient();
+    supabaseModal.classList.remove('hidden');
+  });
+}
+
+if (closeSupabaseModalBtn) {
+  closeSupabaseModalBtn.addEventListener('click', () => {
+    supabaseModal.classList.add('hidden');
+  });
+}
+
+if (saveSupabaseConfigBtn) {
+  saveSupabaseConfigBtn.addEventListener('click', async () => {
+    const url = document.getElementById('supabaseUrlInput').value.trim();
+    const key = document.getElementById('supabaseKeyInput').value.trim();
+
+    if (!url || !key) {
+      showToast('Harap isi URL dan Anon Key Supabase!', 'error');
+      return;
+    }
+
+    localStorage.setItem('supabase_url', url);
+    localStorage.setItem('supabase_key', key);
+    initSupabaseClient();
+
+    if (supabaseClient) {
+      showToast('Kredensial Supabase tersimpan! Mencoba sinkronisasi data cloud...', 'success');
+      await syncDownloadFromSupabase(false);
+      supabaseModal.classList.add('hidden');
+    } else {
+      showToast('Gagal terhubung dengan kredensial Supabase tersebut.', 'error');
+    }
+  });
+}
+
+if (disconnectSupabaseBtn) {
+  disconnectSupabaseBtn.addEventListener('click', () => {
+    if (confirm('Putuskan koneksi Supabase Cloud? Data lokal Anda tetap tersimpan.')) {
+      localStorage.removeItem('supabase_url');
+      localStorage.removeItem('supabase_key');
+      supabaseClient = null;
+      initSupabaseClient();
+      showToast('Koneksi Supabase diputuskan. Kembali ke Mode Lokal.', 'info');
+    }
+  });
+}
+
+if (syncUploadBtn) {
+  syncUploadBtn.addEventListener('click', () => {
+    syncUploadToSupabase();
+  });
+}
+
+if (syncDownloadBtn) {
+  syncDownloadBtn.addEventListener('click', () => {
+    syncDownloadFromSupabase(false);
+  });
+}
+
+if (copySqlBtn && sqlSchemaTextarea) {
+  copySqlBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(SQL_SCHEMA_SCRIPT).then(() => {
+      showToast('Kode SQL Schema berhasil disalin ke clipboard!', 'success');
+    }).catch(() => {
+      showToast('Gagal menyalin kode SQL.', 'error');
+    });
+  });
+}
+
 // ==================== INITIALIZATION ON PAGE LOAD ====================
 updatePicDropdowns();
 populateProjectDropdown();
@@ -2384,3 +2782,9 @@ updateDashboardMetrics();
 renderTaskTable();
 renderProjectHub();
 renderTeamHub();
+
+// Init Supabase Client & fetch cloud data quietly if connected
+initSupabaseClient();
+if (supabaseClient) {
+  syncDownloadFromSupabase(true);
+}
