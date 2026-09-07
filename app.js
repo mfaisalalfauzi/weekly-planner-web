@@ -2182,6 +2182,11 @@ function deleteTask(id) {
   if (confirm(`Yakin ingin menghapus task:\n"${item.task}"?`)) {
     tasks = tasks.filter(t => t.id !== id);
     selectedTaskIds.delete(id);
+    if (supabaseClient) {
+      supabaseClient.from('tasks').delete().eq('id', id).then(({ error }) => {
+        if (error) console.error('Gagal hapus task di Supabase:', error);
+      });
+    }
     saveTasks();
     updateDashboardMetrics();
     renderTaskTable();
@@ -2207,9 +2212,15 @@ document.getElementById('selectAllCheckbox').addEventListener('change', (e) => {
 document.getElementById('bulkDeleteBtn').addEventListener('click', () => {
   if (selectedTaskIds.size === 0) return;
   const count = selectedTaskIds.size;
+  const idsToDelete = Array.from(selectedTaskIds);
   if (confirm(`Apakah Anda yakin ingin menghapus ${count} task terpilih secara permanen? Tindakan ini tidak dapat dibatalkan.`)) {
     tasks = tasks.filter(t => !selectedTaskIds.has(t.id));
     selectedTaskIds.clear();
+    if (supabaseClient && idsToDelete.length > 0) {
+      supabaseClient.from('tasks').delete().in('id', idsToDelete).then(({ error }) => {
+        if (error) console.error('Gagal hapus bulk task di Supabase:', error);
+      });
+    }
     saveTasks();
     updateDashboardMetrics();
     renderTaskTable();
@@ -2364,9 +2375,20 @@ function deleteProject(id) {
 
   if (confirm(confirmMsg)) {
     projects = projects.filter(item => item.id !== id);
+    if (supabaseClient) {
+      supabaseClient.from('projects').delete().eq('id', id).then(({ error }) => {
+        if (error) console.error('Gagal hapus proyek di Supabase:', error);
+      });
+    }
     if (countLinkedTasks > 0) {
+      const deletedTaskIds = tasks.filter(t => t.projectId === id).map(t => t.id);
       tasks = tasks.filter(t => t.projectId !== id);
       selectedTaskIds.clear();
+      if (supabaseClient && deletedTaskIds.length > 0) {
+        supabaseClient.from('tasks').delete().in('id', deletedTaskIds).then(({ error }) => {
+          if (error) console.error('Gagal hapus linked tasks di Supabase:', error);
+        });
+      }
       saveTasks();
     }
     saveProjects();
@@ -2471,6 +2493,11 @@ function deleteTeamMember(id) {
 
   if (confirm(msg)) {
     teamMembers = teamMembers.filter(item => item.id !== id);
+    if (supabaseClient) {
+      supabaseClient.from('team_members').delete().eq('id', id).then(({ error }) => {
+        if (error) console.error('Gagal hapus anggota tim di Supabase:', error);
+      });
+    }
     saveTeamMembers();
     updatePicDropdowns();
     renderTeamHub();
